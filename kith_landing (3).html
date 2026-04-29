@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kith — Find your person. With your people.</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --blue:#4A7394;--blue-light:#E8F0F5;--blue-dark:#2D5070;--blue-mid:#7AA0B8;
+  --warm:#F7F4EF;--warm-2:#EDE8E0;--warm-3:#DDD6CA;
+  --ink:#1A2530;--ink-mid:#3D5060;--ink-light:#7A97A8;
+  --white:#FFFFFF;--accent:#C8936A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--warm);font-family:'Jost',sans-serif;color:var(--ink);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;background:rgba(247,244,239,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid rgba(74,115,148,0.15);}
+.nav-logo{font-family:'Playfair Display',serif;font-size:24px;color:var(--blue);font-weight:400;letter-spacing:0.04em;}
+.nav-tagline{font-size:10px;letter-spacing:0.14em;color:var(--ink-light);font-family:'Jost',sans-serif;}
+.nav-cta{padding:10px 24px;background:var(--blue);border:none;border-radius:2px;font-size:11px;color:var(--white);font-family:'Jost',sans-serif;letter-spacing:0.1em;cursor:pointer;transition:background 0.2s;}
+.nav-cta:hover{background:var(--blue-dark);}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 48px 80px;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;right:-100px;top:50%;transform:translateY(-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(74,115,148,0.06) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:720px;}
+.hero-eyebrow{font-size:11px;letter-spacing:0.2em;color:var(--blue);margin-bottom:24px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(44px,6vw,82px);font-weight:400;color:var(--ink);line-height:1.05;margin-bottom:8px;opacity:0;animation:fadeUp 0.8s 0.3s forwards;}
+.hero-h1-2{font-family:'Playfair Display',serif;font-size:clamp(44px,6vw,82px);font-weight:400;font-style:italic;color:var(--blue);line-height:1.05;margin-bottom:32px;opacity:0;animation:fadeUp 0.8s 0.45s forwards;}
+.hero-sub{font-size:17px;color:var(--ink-mid);line-height:1.8;max-width:480px;font-weight:300;margin-bottom:48px;opacity:0;animation:fadeUp 0.8s 0.6s forwards;}
+.hero-actions{opacity:0;animation:fadeUp 0.8s 0.75s forwards;}
+.btn-primary{padding:18px 48px;background:var(--blue);border:none;border-radius:2px;font-size:12px;color:var(--white);font-family:'Jost',sans-serif;letter-spacing:0.12em;cursor:pointer;transition:all 0.2s;display:inline-block;}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-1px);}
+.btn-outline{padding:18px 32px;background:transparent;border:0.5px solid var(--blue);border-radius:2px;font-size:12px;color:var(--blue);font-family:'Jost',sans-serif;letter-spacing:0.12em;cursor:pointer;transition:all 0.2s;margin-left:12px;}
+.btn-outline:hover{background:var(--blue-light);}
+.hero-note{font-size:11px;color:var(--ink-light);letter-spacing:0.06em;margin-top:14px;}
+
+/* STRIP */
+.strip{background:var(--ink);padding:16px 0;overflow:hidden;white-space:nowrap;}
+.strip-inner{display:inline-flex;animation:marquee 35s linear infinite;}
+.strip-item{font-size:11px;letter-spacing:0.16em;color:rgba(255,255,255,0.6);padding:0 40px;}
+.strip-sep{color:var(--blue-mid);padding:0 6px;}
+
+/* SECTIONS */
+section{padding:100px 48px;}
+.section-inner{max-width:1000px;margin:0 auto;}
+.eyebrow{font-size:10px;letter-spacing:0.2em;color:var(--blue);margin-bottom:14px;font-family:'Jost',sans-serif;}
+.section-h2{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,52px);font-weight:400;color:var(--ink);line-height:1.15;margin-bottom:20px;}
+.section-h2 em{font-style:italic;color:var(--blue);}
+.section-sub{font-size:15px;color:var(--ink-mid);line-height:1.85;font-weight:300;}
+
+/* KITH DEFINITION */
+.definition-box{background:var(--white);border:0.5px solid rgba(74,115,148,0.2);border-radius:2px;padding:40px 48px;margin-bottom:60px;}
+.def-word{font-family:'Playfair Display',serif;font-size:36px;color:var(--blue);margin-bottom:4px;}
+.def-phonetic{font-size:13px;color:var(--ink-light);font-style:italic;margin-bottom:12px;}
+.def-pos{font-size:11px;letter-spacing:0.1em;color:var(--blue-mid);margin-bottom:8px;}
+.def-text{font-size:15px;color:var(--ink-mid);line-height:1.7;font-weight:300;}
+.def-example{font-size:13px;color:var(--ink-light);font-style:italic;margin-top:8px;padding-left:16px;border-left:2px solid var(--blue-light);}
+
+/* SPLIT */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.witness-panel{background:var(--white);border:0.5px solid rgba(74,115,148,0.2);border-radius:2px;padding:32px;}
+.witness-row{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:0.5px solid rgba(74,115,148,0.1);}
+.witness-row:last-child{border-bottom:none;}
+.w-avatar{width:38px;height:38px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:var(--blue);flex-shrink:0;}
+.w-name{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:2px;}
+.w-meta{font-size:11px;color:var(--ink-light);}
+.w-verdict{display:inline-block;font-size:10px;padding:2px 8px;border-radius:2px;background:#EAF3DE;color:#3B6D11;margin:4px 0;}
+.w-note{font-size:11px;color:var(--ink-mid);font-style:italic;line-height:1.5;margin-top:4px;}
+
+/* STEPS */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:rgba(74,115,148,0.12);border:0.5px solid rgba(74,115,148,0.12);margin-top:56px;}
+.step-cell{background:var(--warm);padding:32px 28px;}
+.step-n{font-family:'Playfair Display',serif;font-size:40px;color:rgba(74,115,148,0.2);margin-bottom:14px;line-height:1;}
+.step-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:8px;}
+.step-body{font-size:12px;color:var(--ink-mid);line-height:1.7;font-weight:300;}
+
+/* DARK QUOTE */
+.quote-block{background:var(--blue-dark);padding:100px 48px;text-align:center;}
+.q-mark{font-family:'Playfair Display',serif;font-size:72px;color:var(--blue-mid);line-height:0.6;margin-bottom:24px;}
+.q-text{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,36px);color:var(--white);font-weight:400;font-style:italic;line-height:1.5;max-width:700px;margin:0 auto 24px;}
+.q-attr{font-size:10px;letter-spacing:0.14em;color:var(--blue-mid);}
+
+/* PRICING */
+.price-card{background:var(--white);border:0.5px solid rgba(74,115,148,0.25);border-radius:2px;padding:48px;max-width:580px;margin:0 auto;}
+.price-top{display:flex;align-items:baseline;justify-content:center;gap:12px;margin-bottom:6px;}
+.price-amt{font-family:'Playfair Display',serif;font-size:64px;font-weight:400;color:var(--ink);line-height:1;}
+.price-per{font-size:13px;color:var(--ink-light);letter-spacing:0.06em;}
+.price-note{font-size:12px;color:var(--ink-light);margin-bottom:36px;letter-spacing:0.06em;}
+.price-items{list-style:none;margin-bottom:40px;}
+.price-items li{display:flex;gap:14px;align-items:flex-start;padding:11px 0;border-bottom:0.5px solid rgba(74,115,148,0.1);font-size:14px;color:var(--ink-mid);font-weight:300;line-height:1.5;}
+.price-items li:last-child{border-bottom:none;}
+.p-dot{width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:7px;}
+.compare-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid rgba(74,115,148,0.08);font-size:12px;}
+.compare-row:last-child{border-bottom:none;}
+
+/* WAITLIST */
+.waitlist-section{background:var(--warm-2);border-top:0.5px solid rgba(74,115,148,0.12);padding:100px 48px;}
+.waitlist-inner{max-width:600px;}
+.waitlist-form{display:flex;gap:0;margin-top:36px;border:0.5px solid rgba(74,115,148,0.35);border-radius:2px;overflow:hidden;}
+.w-input{flex:1;padding:16px 20px;border:none;background:var(--white);font-size:14px;font-family:'Jost',sans-serif;color:var(--ink);outline:none;}
+.w-input::placeholder{color:var(--ink-light);}
+.w-btn{padding:16px 28px;background:var(--blue);border:none;font-size:11px;color:var(--white);font-family:'Jost',sans-serif;letter-spacing:0.12em;cursor:pointer;white-space:nowrap;transition:background 0.2s;}
+.w-btn:hover{background:var(--blue-dark);}
+
+/* FEEDBACK */
+.feedback-section{padding:60px 48px;background:var(--warm);}
+.fb-inner{max-width:600px;margin:0 auto;text-align:center;}
+.fb-h{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--ink);margin-bottom:8px;}
+.fb-sub{font-size:13px;color:var(--ink-light);margin-bottom:28px;}
+.reaction-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.r-btn{padding:10px 18px;border:0.5px solid rgba(74,115,148,0.3);border-radius:2px;background:var(--white);font-size:12px;color:var(--ink-mid);font-family:'Jost',sans-serif;cursor:pointer;transition:all 0.15s;letter-spacing:0.04em;}
+.r-btn:hover,.r-btn.active{background:var(--blue);color:var(--white);border-color:var(--blue);}
+.fb-ta{width:100%;padding:14px 16px;border:0.5px solid rgba(74,115,148,0.3);border-radius:2px;font-size:13px;font-family:'Jost',sans-serif;color:var(--ink);resize:none;outline:none;background:var(--white);margin-bottom:16px;}
+.fb-ta:focus{border-color:var(--blue);}
+.fb-submit{padding:12px 32px;background:var(--ink);border:none;border-radius:2px;font-size:11px;color:var(--white);letter-spacing:0.12em;cursor:pointer;font-family:'Jost',sans-serif;transition:background 0.2s;}
+.fb-submit:hover{background:var(--ink-mid);}
+.fb-thanks{display:none;font-family:'Playfair Display',serif;font-size:22px;color:var(--blue);font-style:italic;}
+
+/* FOOTER */
+footer{padding:32px 48px;border-top:0.5px solid rgba(74,115,148,0.15);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--warm);}
+.footer-logo{font-family:'Playfair Display',serif;font-size:18px;color:var(--blue);}
+.footer-note{font-size:11px;color:var(--ink-light);letter-spacing:0.05em;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .nav-tagline{display:none;}
+  .hero{padding:100px 24px 60px;}
+  .hero-actions .btn-outline{display:none;}
+  section{padding:64px 24px;}
+  .split{grid-template-columns:1fr;gap:40px;}
+  .definition-box{padding:24px;}
+  .waitlist-form{flex-direction:column;}
+  footer{padding:24px;}
+}
+
+.vs-section{padding:100px 48px;background:var(--ink);}
+.vs-inner{max-width:1000px;margin:0 auto;}
+.vs-header{text-align:center;margin-bottom:60px;}
+.vs-h{font-family:'Playfair Display',serif;font-size:clamp(30px,4vw,48px);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:12px;}
+.vs-h em{font-style:italic;color:var(--blue-mid);}
+.vs-sub{font-size:15px;color:rgba(255,255,255,0.5);font-weight:300;line-height:1.7;max-width:520px;margin:0 auto;}
+.vs-table{width:100%;border-collapse:collapse;}
+.vs-table th{padding:14px 20px;font-size:10px;letter-spacing:0.14em;font-family:'Jost',sans-serif;font-weight:500;text-align:left;}
+.vs-table th:first-child{color:rgba(255,255,255,0.4);width:35%;}
+.vs-table th.kith-col{color:var(--blue-mid);text-align:center;}
+.vs-table th.trad-col{color:rgba(255,255,255,0.3);text-align:center;}
+.vs-table td{padding:16px 20px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:13px;font-weight:300;vertical-align:top;line-height:1.6;}
+.vs-table td:first-child{color:rgba(255,255,255,0.5);font-size:12px;letter-spacing:0.04em;}
+.vs-table td.kith-val{color:var(--white);text-align:center;}
+.vs-table td.trad-val{color:rgba(255,255,255,0.3);text-align:center;}
+.vs-check{display:inline-block;width:22px;height:22px;border-radius:50%;background:rgba(74,115,148,0.3);border:1px solid var(--blue-mid);color:var(--blue-mid);font-size:12px;line-height:22px;text-align:center;}
+.vs-x{display:inline-block;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.2);font-size:12px;line-height:22px;text-align:center;}
+.vs-price-kith{font-family:'Playfair Display',serif;font-size:22px;color:var(--blue-mid);}
+.vs-price-trad{font-family:'Playfair Display',serif;font-size:22px;color:rgba(255,255,255,0.25);text-decoration:line-through;}
+.vs-kith-col-head{background:rgba(74,115,148,0.12);border-radius:4px 4px 0 0;}
+.vs-kith-cell{background:rgba(74,115,148,0.06);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div style="display:flex;flex-direction:column;">
+    <div class="nav-logo">kith</div>
+    <div class="nav-tagline">FIND YOUR PERSON. WITH YOUR PEOPLE.</div>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('k-waitlist').scrollIntoView({behavior:'smooth'})">Request an invite</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">A NEW KIND OF DATING MEMBERSHIP</p>
+    <h1 class="hero-h1">Your people.</h1>
+    <h1 class="hero-h1-2">Your forever person.</h1>
+    <p class="hero-sub">Kith is the only membership where your closest community interviews your matches — before you ever meet. Because the people who know you best should be part of finding the one.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('k-waitlist').scrollIntoView({behavior:'smooth'})">REQUEST AN INVITATION</button>
+      <button class="btn-outline" onclick="document.getElementById('k-how').scrollIntoView({behavior:'smooth'})">HOW IT WORKS</button>
+      <p class="hero-note">Membership opens in curated batches · Texas · Launching 2026</p>
+    </div>
+  </div>
+</section>
+
+<div class="strip">
+  <div class="strip-inner">
+    <span class="strip-item">YOUR KITH. YOUR CALL.</span><span class="strip-sep">·</span>
+    <span class="strip-item">BOTH SIDES COME REVIEWED</span><span class="strip-sep">·</span>
+    <span class="strip-item">YOUR CIRCLE REVIEWS YOUR MATCHES</span><span class="strip-sep">·</span>
+    <span class="strip-item">ID VERIFIED MEMBERS ONLY</span><span class="strip-sep">·</span>
+    <span class="strip-item">NO AUTO-RENEWAL. EVER.</span><span class="strip-sep">·</span>
+    <span class="strip-item">YOUR KITH. YOUR CALL.</span><span class="strip-sep">·</span>
+    <span class="strip-item">BOTH SIDES COME REVIEWED</span><span class="strip-sep">·</span>
+    <span class="strip-item">YOUR CIRCLE REVIEWS YOUR MATCHES</span><span class="strip-sep">·</span>
+    <span class="strip-item">ID VERIFIED MEMBERS ONLY</span><span class="strip-sep">·</span>
+    <span class="strip-item">NO AUTO-RENEWAL. EVER.</span><span class="strip-sep">·</span>
+  </div>
+</div>
+
+<section>
+  <div class="section-inner">
+    <div class="definition-box">
+      <p class="def-word">kith</p>
+      <p class="def-phonetic">/kiTH/</p>
+      <p class="def-pos">NOUN · OLD ENGLISH</p>
+      <p class="def-text">One's friends, acquaintances, and relations taken collectively; one's community of trusted people.</p>
+      <p class="def-example">"kith and kin" — your friends and your family. The people who know you best. The people who belong in your corner.</p>
+    </div>
+    <div class="split">
+      <div class="split-text">
+        <p class="eyebrow">THE PROBLEM</p>
+        <h2 class="section-h2">Dating apps were built for <em>algorithms.</em></h2>
+        <p class="section-sub">Your kith — the people who truly know you — have always been your best filter. But every dating app locks them out. Kith puts them exactly where they belong: at the centre of your search.</p>
+      </div>
+      <div class="witness-panel">
+        <p style="font-size:9px;letter-spacing:0.14em;color:var(--blue);font-family:'Jost',sans-serif;margin-bottom:14px;">YOUR CIRCLE WEIGHS IN</p>
+        <div class="witness-row">
+          <div class="w-avatar">JC</div>
+          <div><p class="w-name">Jessica — your sister</p><p class="w-meta">Reviewed Marcus · ★★★★★</p><span class="w-verdict">Approved</span><p class="w-note">"He seems genuinely grounded. Go for it."</p></div>
+        </div>
+        <div class="witness-row">
+          <div class="w-avatar">KM</div>
+          <div><p class="w-name">Kim — your best friend</p><p class="w-meta">Reviewed Marcus · ★★★★☆</p><span class="w-verdict">Approved</span><p class="w-note">"Solid. Just make sure he's fully moved on."</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--warm-2);border-top:0.5px solid rgba(74,115,148,0.1);border-bottom:0.5px solid rgba(74,115,148,0.1);" id="k-how">
+  <div class="section-inner">
+    <p class="eyebrow" style="text-align:center;">HOW KITH WORKS</p>
+    <h2 class="section-h2" style="text-align:center;">Your circle. Their circle.<br><em>Together.</em></h2>
+    <p class="section-sub" style="text-align:center;margin:0 auto;">Every match on Kith is reviewed by two people on each side — by community, for community.</p>
+    <div class="steps-grid">
+      <div class="step-cell"><div class="step-n">01</div><p class="step-title">Join &amp; choose your 2 Circle Members</p><p class="step-body">A sister, best friend, or colleague who will review candidates privately on your behalf — and report back only to you.</p></div>
+      <div class="step-cell"><div class="step-n">02</div><p class="step-title">Send a match to your Circle</p><p class="step-body">When someone interests you, your Circle receives their profile and asks your custom questions privately.</p></div>
+      <div class="step-cell"><div class="step-n">03</div><p class="step-title">Their Circle reviews you</p><p class="step-body">Symmetrical by design — their Circle reviews you at the same time. Both communities weigh in together.</p></div>
+      <div class="step-cell"><div class="step-n">04</div><p class="step-title">You get the full picture</p><p class="step-body">Private ratings, honest notes, and a verdict from each Circle Member. Then you decide whether to meet.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="vs-section">
+  <div class="vs-inner">
+    <div class="vs-header">
+      <p style="font-size:10px;letter-spacing:0.2em;color:var(--blue-mid);font-family:'Jost',sans-serif;margin-bottom:14px;">WHY KITH</p>
+      <h2 class="vs-h">Everything traditional matchmakers<br>offer — and <em>so much more.</em></h2>
+      <p class="vs-sub">Traditional matchmakers charge $15,000–$50,000 and make decisions behind closed doors. Kith puts you and your community in control — at a fraction of the cost.</p>
+    </div>
+    <table class="vs-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="kith-col vs-kith-col-head">KITH — $5,000</th>
+          <th class="trad-col">TRADITIONAL MATCHMAKER</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cost</td>
+          <td class="kith-val vs-kith-cell"><span class="vs-price-kith">$5,000</span><br><span style="font-size:11px;color:rgba(255,255,255,0.4);">6-month membership</span></td>
+          <td class="trad-val"><span class="vs-price-trad">$15k–$50k</span><br><span style="font-size:11px;color:rgba(255,255,255,0.2);">per engagement</span></td>
+        </tr>
+        <tr>
+          <td>Who makes decisions</td>
+          <td class="kith-val vs-kith-cell" style="color:var(--white);">You — with your Circle</td>
+          <td class="trad-val">A stranger you hired</td>
+        </tr>
+        <tr>
+          <td>People who review matches</td>
+          <td class="kith-val vs-kith-cell" style="color:var(--white);">Your closest friends &amp; family — people who've known you for years</td>
+          <td class="trad-val">A paid professional who just met you</td>
+        </tr>
+        <tr>
+          <td>Transparency</td>
+          <td class="kith-val vs-kith-cell" style="color:var(--white);">Full visibility — you see every match, every review, every decision</td>
+          <td class="trad-val">Opaque — matchmaker decides behind closed doors</td>
+        </tr>
+        <tr>
+          <td>You stay in control</td>
+          <td class="kith-val vs-kith-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val"><span class="vs-x">✗</span></td>
+        </tr>
+        <tr>
+          <td>Community involved</td>
+          <td class="kith-val vs-kith-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val"><span class="vs-x">✗</span></td>
+        </tr>
+        <tr>
+          <td>Both sides reviewed</td>
+          <td class="kith-val vs-kith-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val"><span class="vs-x">✗</span></td>
+        </tr>
+        <tr>
+          <td>ID-verified members</td>
+          <td class="kith-val vs-kith-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val" style="color:rgba(255,255,255,0.3);font-size:12px;">Varies</td>
+        </tr>
+        <tr>
+          <td>No auto-renewal</td>
+          <td class="kith-val vs-kith-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val"><span class="vs-x">✗</span></td>
+        </tr>
+        <tr>
+          <td>Candidates held accountable</td>
+          <td class="kith-val vs-kith-cell" style="color:var(--white);">Reviewed by real people in your life — they know they're being evaluated by your community</td>
+          <td class="trad-val">Screened by a professional, not someone who knows you</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="text-align:center;margin-top:48px;">
+      <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px;font-weight:300;">Ready to find your person — with your people?</p>
+      <button style="padding:16px 48px;background:var(--blue);border:none;border-radius:2px;font-size:12px;color:var(--white);font-family:'Jost',sans-serif;letter-spacing:0.12em;cursor:pointer;" onclick="document.getElementById('k-waitlist').scrollIntoView({behavior:'smooth'})">REQUEST AN INVITATION</button>
+    </div>
+  </div>
+</section>
+<div class="quote-block">
+  <div class="q-mark">"</div>
+  <p class="q-text">Your kith know you better than any algorithm ever could. They belong in your search for love.</p>
+  <p class="q-attr">— THE KITH TEAM</p>
+</div>
+
+<section>
+  <div class="section-inner" style="text-align:center;">
+    <p class="eyebrow">MEMBERSHIP</p>
+    <h2 class="section-h2">One price.<br><em>No surprises.</em></h2>
+    <p class="section-sub" style="margin:0 auto 48px;">A single 6-month membership. When it ends, you choose whether to renew — we never charge you automatically.</p>
+    <div class="price-card">
+      <p style="font-size:10px;letter-spacing:0.14em;color:var(--ink-light);margin-bottom:10px;">6-MONTH MEMBERSHIP</p>
+      <div class="price-top" style="justify-content:center;">
+        <p class="price-amt" style="text-align:center;">$5,000</p>
+      </div>
+      <p class="price-note">ONE-TIME · NO AUTO-RENEWAL · NO HIDDEN FEES</p>
+      <ul class="price-items">
+        <li><span class="p-dot"></span>Profile-based matching within the Kith community</li>
+        <li><span class="p-dot"></span>Community matching — your Circle reviews them, their Circle reviews you</li>
+        
+        <li><span class="p-dot"></span>ID-verified members only — everyone is identity checked</li>
+        <li><span class="p-dot"></span>6 full months, then renew on your terms</li>
+      </ul>
+      <div style="border-top:0.5px solid rgba(74,115,148,0.15);padding-top:20px;margin-bottom:32px;">
+        <div class="compare-row"><span style="color:var(--ink-mid);">Traditional matchmakers</span><span style="text-decoration:line-through;color:var(--ink-light);">$15,000–$50,000</span></div>
+        <div class="compare-row"><span style="color:var(--ink-mid);">Kith — Circle matching included</span><span style="color:var(--blue);font-family:'Playfair Display',serif;font-size:15px;">$5,000 / 6 mo</span></div>
+        <div class="compare-row"><span style="color:var(--ink-mid);">Hinge, Bumble, Tinder</span><span style="color:var(--ink-light);">Free — and it shows</span></div>
+      </div>
+      <button class="btn-primary" style="width:100%;" onclick="document.getElementById('k-waitlist').scrollIntoView({behavior:'smooth'})">REQUEST AN INVITATION</button>
+    </div>
+  </div>
+</section>
+
+<section class="waitlist-section" id="k-waitlist">
+  <div class="section-inner">
+    <div class="waitlist-inner">
+      <p class="eyebrow">JOIN THE WAITLIST</p>
+      <h2 class="section-h2">Ready to find<br>your <em>person?</em></h2>
+      <p class="section-sub">Kith opens in curated batches. Leave your email and we'll reach out when a spot opens in your area.</p>
+      <div class="waitlist-form">
+        <input class="w-input" type="email" placeholder="your@email.com" id="k-email"/>
+        <button class="w-btn" onclick="joinKWaitlist()">JOIN WAITLIST</button>
+      </div>
+      <p id="k-thanks" style="display:none;margin-top:20px;font-family:'Playfair Display',serif;font-size:22px;color:var(--blue);font-style:italic;">You're on the list. We'll be in touch.</p>
+      <p style="font-size:11px;color:var(--ink-light);margin-top:16px;letter-spacing:0.06em;">Launching 2026 · Texas</p>
+    </div>
+  </div>
+</section>
+
+<section class="feedback-section" id="k-feedback">
+  <div class="fb-inner">
+    <h3 class="fb-h">What's your reaction to Kith?</h3>
+    <p class="fb-sub">Your honest feedback shapes the product. Takes 30 seconds.</p>
+    <div style="margin-top:32px;text-align:center;">
+      <p style="font-size:13px;color:var(--ink-light);margin-bottom:24px;font-weight:300;line-height:1.7;">Your reactions, honest thoughts, and dating market frustrations all help shape what Kith becomes.<br>Takes less than 2 minutes.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScJgkNP0yn-chP2xrPqxwothudVG-EtLON2XbqjnuItSc0XoA/viewform?usp=header"
+        target="_blank" rel="noopener noreferrer"
+        style="display:inline-block;padding:18px 48px;background:var(--blue);color:var(--white);font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.12em;text-decoration:none;border-radius:2px;transition:background 0.2s;"
+        onmouseover="this.style.background='var(--blue-dark)'"
+        onmouseout="this.style.background='var(--blue)'">
+        SHARE MY FEEDBACK
+      </a>
+      <p style="font-size:11px;color:var(--ink-light);margin-top:14px;letter-spacing:0.04em;">Opens in a new tab · Takes less than 2 minutes</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">kith</div>
+  <p class="footer-note">hello@kith.com · Texas · Launching 2026</p>
+  <p class="footer-note">© 2026 Kith</p>
+</footer>
+
+<script>
+function joinKWaitlist(){
+  const email=document.getElementById('k-email').value;
+  if(!email||!email.includes('@'))return;
+  document.querySelector('.waitlist-form').style.display='none';
+  document.getElementById('k-thanks').style.display='block';
+}
+function selKReact(btn){
+  document.querySelectorAll('#k-reactions .r-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function submitKFeedback(){
+  document.getElementById('k-feedback-text').style.display='none';
+  document.querySelector('.fb-submit').style.display='none';
+  document.getElementById('k-reactions').style.display='none';
+  document.querySelector('.fb-h').style.display='none';
+  document.querySelector('.fb-sub').style.display='none';
+  document.getElementById('k-feedback-thanks').style.display='block';
+}
+</script>
+</body>
+</html>
