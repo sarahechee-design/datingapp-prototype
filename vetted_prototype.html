@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vetted — Interactive Prototype</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #F5F0E8; font-family: Georgia, serif; min-height: 100vh; }
+
+  /* NAV */
+  .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: #FAF7F2; border-bottom: 1px solid #E8DFD0; position: sticky; top: 0; z-index: 100; }
+  .top-nav-logo { font-family: Georgia, serif; font-size: 14px; letter-spacing: 0.22em; color: #C8A96E; }
+  .top-nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+  .nav-pill { padding: 7px 14px; border-radius: 20px; font-size: 11px; font-family: sans-serif; cursor: pointer; border: 1px solid #E0D4C0; background: #FDF9F4; color: #5C4D3A; transition: all 0.15s; white-space: nowrap; }
+  .nav-pill:hover, .nav-pill.active { background: #C8A96E; border-color: #C8A96E; color: #FDF9F4; }
+
+  /* LAYOUT */
+  .prototype-wrap { display: flex; justify-content: center; padding: 40px 20px 60px; gap: 40px; flex-wrap: wrap; }
+  .section-label { font-size: 11px; letter-spacing: 0.14em; color: #A8947A; font-family: sans-serif; text-align: center; margin-bottom: 12px; }
+
+  /* PHONE FRAME */
+  .phone { width: 375px; background: #FAF7F2; border-radius: 40px; border: 2px solid #C8A96E; overflow: hidden; display: flex; flex-direction: column; flex-shrink: 0; }
+  .screen { display: none; flex-direction: column; min-height: 720px; }
+  .screen.active { display: flex; }
+
+  /* SHARED COMPONENTS */
+  .logo { font-family: Georgia, serif; font-size: 12px; letter-spacing: 0.22em; color: #C8A96E; text-align: center; padding: 44px 0 4px; }
+  .logo-sub { font-size: 10px; letter-spacing: 0.1em; color: #A8947A; text-align: center; }
+  .sc { flex: 1; padding: 24px 24px 28px; display: flex; flex-direction: column; }
+  .sh { font-family: Georgia, serif; font-size: 24px; font-weight: 400; color: #3A2E22; line-height: 1.3; margin-bottom: 6px; }
+  .ss { font-size: 12px; color: #9A8870; line-height: 1.6; font-family: sans-serif; margin-bottom: 20px; }
+  .btn-g { width: 100%; padding: 15px; background: #C8A96E; border: none; border-radius: 12px; font-size: 14px; color: #FDF9F4; font-family: Georgia, serif; letter-spacing: 0.05em; cursor: pointer; }
+  .btn-g:hover { background: #B8965A; }
+  .btn-ghost { width: 100%; padding: 11px; background: transparent; border: none; font-size: 12px; color: #A8947A; font-family: sans-serif; cursor: pointer; margin-top: 8px; }
+  .back-btn { font-size: 12px; color: #A8947A; background: none; border: none; cursor: pointer; font-family: sans-serif; padding: 0; }
+  .fnav { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  .prog { display: flex; gap: 5px; padding: 44px 24px 0; }
+  .pd { flex: 1; height: 2px; background: #E8DFD0; border-radius: 2px; transition: background 0.3s; }
+  .pd.on { background: #C8A96E; }
+  .lbl { font-size: 10px; letter-spacing: 0.1em; color: #A8947A; margin-bottom: 6px; display: block; font-family: sans-serif; }
+  .inp { width: 100%; padding: 12px 14px; background: #FDF9F4; border: 1px solid #E0D4C0; border-radius: 10px; font-size: 14px; color: #3A2E22; font-family: Georgia, serif; outline: none; margin-bottom: 12px; }
+  .inp:focus { border-color: #C8A96E; }
+  .inp::placeholder { color: #C4B59E; }
+  .sel-inp { width: 100%; padding: 12px 14px; background: #FDF9F4; border: 1px solid #E0D4C0; border-radius: 10px; font-size: 14px; color: #3A2E22; font-family: Georgia, serif; outline: none; margin-bottom: 12px; appearance: none; }
+  .sel-inp:focus { border-color: #C8A96E; }
+  .divl { height: 0.5px; background: #E8DFD0; margin: 10px 0; }
+  .card { background: #FBF4E7; border: 1px solid #E0D4C0; border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; font-family: sans-serif; flex-shrink: 0; background: #F0E8D8; color: #C8A96E; }
+  .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-family: sans-serif; background: #F0E8D8; color: #7A5C20; }
+  .chip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .chip { padding: 13px 10px; border: 1px solid #E0D4C0; border-radius: 10px; font-size: 13px; color: #5C4D3A; background: #FDF9F4; cursor: pointer; text-align: center; font-family: sans-serif; transition: all 0.15s; }
+  .chip.sel { background: #FBF4E7; border-color: #C8A96E; color: #7A5C20; }
+  .chip-sm { padding: 9px 14px; border: 1px solid #E0D4C0; border-radius: 20px; font-size: 12px; color: #5C4D3A; background: #FDF9F4; cursor: pointer; font-family: sans-serif; transition: all 0.15s; display: inline-block; margin: 0 6px 8px 0; }
+  .chip-sm.sel { background: #FBF4E7; border-color: #C8A96E; color: #7A5C20; }
+  .range-val { font-family: Georgia, serif; font-size: 24px; color: #3A2E22; text-align: center; margin-bottom: 8px; }
+  .progress-track { height: 6px; background: #E8DFD0; border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
+  .progress-fill { height: 100%; background: #C8A96E; border-radius: 3px; }
+  .tip-box { background: #FAF7F2; border: 1px solid #E8DFD0; border-radius: 10px; padding: 12px; margin-bottom: 14px; }
+  .tip-text { font-size: 11px; color: #7A6040; font-family: sans-serif; line-height: 1.6; }
+  .ta { width: 100%; padding: 12px 14px; background: #FDF9F4; border: 1px solid #E0D4C0; border-radius: 10px; font-size: 13px; color: #3A2E22; font-family: sans-serif; resize: none; outline: none; line-height: 1.6; }
+  .ta:focus { border-color: #C8A96E; }
+  .ta::placeholder { color: #C4B59E; }
+  .contact-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 0.5px solid #E8DFD0; cursor: pointer; }
+  .contact-row:last-child { border-bottom: none; }
+  .contact-row:hover .contact-name { color: #C8A96E; }
+  .contact-name { font-size: 14px; color: #3A2E22; font-family: sans-serif; font-weight: 500; }
+  .contact-detail { font-size: 11px; color: #9A8870; font-family: sans-serif; }
+  .star { font-size: 20px; color: #E0D4C0; cursor: pointer; transition: color 0.1s; }
+  .star.on { color: #C8A96E; }
+  .thumb-btn { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid #E0D4C0; background: #FDF9F4; cursor: pointer; transition: all 0.15s; }
+  .thumb-btn.up.sel { background: #EAF3DE; border-color: #639922; }
+  .thumb-btn.dn.sel { background: #FCEBEB; border-color: #E24B4A; }
+  .toggle-track { width: 44px; height: 24px; border-radius: 12px; background: #E0D4C0; position: relative; cursor: pointer; transition: background 0.2s; flex-shrink: 0; }
+  .toggle-track.on { background: #C8A96E; }
+  .toggle-thumb { width: 18px; height: 18px; border-radius: 50%; background: #FDF9F4; position: absolute; top: 3px; left: 3px; transition: left 0.2s; }
+  .toggle-track.on .toggle-thumb { left: 23px; }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; }
+  .score-row { display: flex; gap: 10px; margin-bottom: 14px; }
+  .score-card { flex: 1; background: #FBF4E7; border: 1px solid #E0D4C0; border-radius: 12px; padding: 12px; text-align: center; }
+  .score-num { font-family: Georgia, serif; font-size: 28px; color: #C8A96E; }
+  .score-lbl { font-size: 10px; color: #A8947A; font-family: sans-serif; letter-spacing: 0.06em; margin-top: 2px; }
+  .fb-card { background: #FAF7F2; border: 1px solid #E8DFD0; border-radius: 10px; padding: 12px; margin-bottom: 8px; }
+  .fb-q { font-size: 10px; letter-spacing: 0.08em; color: #A8947A; font-family: sans-serif; margin-bottom: 4px; }
+  .fb-a { font-size: 12px; color: #5C4D3A; font-family: sans-serif; line-height: 1.6; font-style: italic; }
+  .q-card { background: #FDF9F4; border: 1px solid #E0D4C0; border-radius: 12px; padding: 14px; margin-bottom: 10px; }
+  .q-num { font-size: 10px; letter-spacing: 0.1em; color: #A8947A; font-family: sans-serif; margin-bottom: 6px; }
+  .q-text { font-size: 13px; color: #3A2E22; font-family: sans-serif; line-height: 1.5; margin-bottom: 10px; }
+  .q-ta { width: 100%; padding: 10px 12px; background: #FAF7F2; border: 1px solid #E0D4C0; border-radius: 8px; font-size: 12px; color: #3A2E22; font-family: sans-serif; resize: none; outline: none; line-height: 1.5; }
+  .q-ta:focus { border-color: #C8A96E; }
+  .prompt-card { border: 1px solid #E0D4C0; border-radius: 12px; padding: 14px 16px; background: #FDF9F4; cursor: pointer; margin-bottom: 10px; transition: all 0.15s; }
+  .prompt-card.sel { border-color: #C8A96E; background: #FBF4E7; }
+  .prompt-card p { font-size: 13px; color: #5C4D3A; font-family: Georgia, serif; line-height: 1.55; font-style: italic; }
+  .prompt-tag { font-size: 10px; color: #A8947A; font-family: sans-serif; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .record-area { border: 1.5px dashed #C8A96E; border-radius: 16px; padding: 28px 20px; text-align: center; background: #FBF4E7; cursor: pointer; margin-bottom: 14px; transition: all 0.2s; }
+  .record-area.recording { border-color: #E24B4A; background: #FCEBEB; }
+  .record-area.done { border-color: #639922; background: #EAF3DE; border-style: solid; }
+  .rec-icon { width: 52px; height: 52px; border-radius: 50%; background: #F0E8D8; border: 2px solid #C8A96E; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+  .rec-icon.recording { background: #FCEBEB; border-color: #E24B4A; }
+  .rec-icon.done { background: #EAF3DE; border-color: #639922; }
+  .rec-dot { width: 14px; height: 14px; border-radius: 50%; background: #C8A96E; }
+  .rec-dot.recording { background: #E24B4A; }
+  .rec-dot.done { background: #639922; }
+  .waveform { display: flex; align-items: center; justify-content: center; gap: 3px; height: 32px; margin: 8px 0; }
+  .wave-bar { width: 3px; border-radius: 2px; background: #C8A96E; transition: height 0.2s; }
+  .fmt-btn { flex: 1; padding: 12px 0; border-radius: 10px; font-size: 12px; font-family: sans-serif; cursor: pointer; border: 1px solid #E0D4C0; background: #FDF9F4; color: #5C4D3A; text-align: center; transition: all 0.15s; }
+  .fmt-btn.sel { background: #FBF4E7; border-color: #C8A96E; color: #7A5C20; }
+  .photo-slot { height: 140px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+  .photo-slot.empty { border: 1.5px dashed #C8A96E; background: #FBF4E7; }
+  .photo-slot.filled { border: 1.5px solid #C8A96E; background: #F0E8D8; position: relative; }
+  .sms-bubble { background: #E8E8E8; border-radius: 18px 18px 18px 4px; padding: 12px 16px; margin-bottom: 10px; }
+  .sms-text { font-size: 13px; color: #1A1A1A; font-family: sans-serif; line-height: 1.55; }
+  .sms-btn { display: inline-block; margin-top: 10px; padding: 10px 20px; background: #C8A96E; border-radius: 20px; font-size: 12px; color: #FDF9F4; font-family: sans-serif; cursor: pointer; border: none; }
+  .confirm-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 0.5px solid #E8DFD0; }
+  .confirm-row:last-child { border-bottom: none; }
+  .ck { font-size: 11px; color: #A8947A; font-family: sans-serif; letter-spacing: 0.06em; }
+  .cv { font-size: 13px; color: #3A2E22; font-family: sans-serif; }
+  .dot-wrap { width: 28px; height: 28px; border-radius: 50%; background: #F0E8D8; border: 1px solid #C8A96E; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #C8A96E; }
+  .price-item { display: flex; gap: 10px; align-items: flex-start; text-align: left; margin-bottom: 11px; }
+  .price-dot { width: 6px; height: 6px; border-radius: 50%; background: #C8A96E; flex-shrink: 0; margin-top: 5px; }
+  .compare-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 0.5px solid #E8DFD0; }
+  .compare-row:last-child { border-bottom: none; }
+  .step-num { width: 32px; height: 32px; border-radius: 50%; background: #FBF4E7; border: 1px solid #C8A96E; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #C8A96E; font-family: Georgia, serif; flex-shrink: 0; }
+  input[type=range] { width: 100%; accent-color: #C8A96E; }
+
+.vetted-note-badge{display:inline-block;font-size:9px;letter-spacing:0.14em;color:#C8A96E;font-family:sans-serif;border:1px solid #C8A96E;padding:3px 10px;border-radius:2px;margin-bottom:8px;}
+.vetted-note-box{background:#FBF4E7;border:1px solid #C8A96E;border-radius:12px;padding:16px;margin-bottom:14px;}
+.vetted-note-text{font-family:Georgia,serif;font-size:13px;color:#3A2E22;line-height:1.7;font-style:italic;}
+.vetted-note-author{font-size:10px;color:#A8947A;font-family:sans-serif;margin-top:8px;letter-spacing:0.06em;}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="top-nav-logo">VETTED</div>
+  <div class="top-nav-links">
+    <button class="nav-pill active" onclick="showSection('landing')">Landing</button>
+    <button class="nav-pill" onclick="showSection('registration')">Registration</button>
+    <button class="nav-pill" onclick="showSection('media')">Media profile</button>
+    <button class="nav-pill" onclick="showSection('pricing')">Pricing</button>
+    <button class="nav-pill" onclick="showSection('matching')">Matching</button>
+    <button class="nav-pill" onclick="showSection('vetting')">Vet nomination</button>
+    
+  </div>
+</nav>
+
+<div class="prototype-wrap">
+
+<!-- ============================================================ LANDING ============================================================ -->
+<div id="sec-landing">
+  <p class="section-label">LANDING PAGE</p>
+  <div class="phone">
+
+    <div class="screen active" id="land-0">
+      <div style="background:#FAF7F2;flex:1;display:flex;flex-direction:column;">
+        <div style="padding:52px 28px 40px;text-align:center;border-bottom:0.5px solid #E8DFD0;flex:1;display:flex;flex-direction:column;justify-content:center;">
+          <p style="font-family:Georgia,serif;font-size:13px;letter-spacing:0.22em;color:#C8A96E;margin-bottom:20px;">VETTED</p>
+          <div style="width:40px;height:1px;background:#C8A96E;margin:0 auto 20px;"></div>
+          <p style="font-family:Georgia,serif;font-size:26px;color:#3A2E22;line-height:1.3;margin-bottom:14px;font-weight:400;">Your people. Your forever person.</p>
+          <p style="font-size:12px;color:#7A6040;line-height:1.75;font-family:sans-serif;margin-bottom:32px;">The only dating membership where both sides come vouched for — by the people who know them best.</p>
+          <button class="btn-g" style="margin-bottom:10px;" onclick="goL('land-how')">How it works</button>
+          <button class="btn-ghost" style="margin-top:0;" onclick="goL('land-pricing')">See membership — $5,000</button>
+        </div>
+        <p style="font-size:10px;color:#A8947A;font-family:sans-serif;text-align:center;padding:14px;letter-spacing:0.06em;">Launching 2026 · Austin, TX</p>
+      </div>
+    </div>
+
+    <div class="screen" id="land-how">
+      <div class="logo">VETTED</div><div class="logo-sub">how it works</div>
+      <div class="sc" style="overflow-y:auto;">
+        <p class="sh" style="margin-top:10px;">Mutual vetting.<br>Both sides. Always.</p>
+        <p class="ss">Every match has been reviewed by two people on each side — before anyone meets anyone.</p>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">1</div><div><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;margin-bottom:3px;">Reserve your spot in the Vetted community</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;line-height:1.6;">Vetted opens in curated batches. Request your invite to get started.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">2</div><div><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;margin-bottom:3px;">Complete your profile</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;line-height:1.6;">Share who you are, what you're looking for, and a short video intro.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">3</div><div><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;margin-bottom:3px;">Browse and send matches to your contacts</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;line-height:1.6;">When someone catches your eye, send their profile to your contacts for review.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">4</div><div><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;margin-bottom:3px;">It goes both ways</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;line-height:1.6;">Their contacts review you at the same time. Both sides, always.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">5</div><div><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;margin-bottom:3px;">Both summaries come in</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;line-height:1.6;">You each receive private feedback from your people — then decide together.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">6</div><div><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;margin-bottom:3px;">Automated gratitude</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;line-height:1.6;">Your contacts automatically receive a curated gift after their first review.</p></div></div>
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goL('land-pricing')">See membership — $5,000</button>
+        <button class="btn-ghost" onclick="goL('land-0')">← Back</button>
+      </div>
+    </div>
+
+    <div class="screen" id="land-pricing">
+      <div class="logo">VETTED</div><div class="logo-sub">membership</div>
+      <div class="sc">
+        <div style="text-align:center;margin:10px 0 16px;">
+          <p style="font-size:10px;letter-spacing:0.14em;color:#A8947A;font-family:sans-serif;margin-bottom:6px;">6-MONTH MEMBERSHIP</p>
+          <p style="font-family:Georgia,serif;font-size:52px;color:#3A2E22;line-height:1;margin-bottom:4px;">$5,000</p>
+          <p style="font-size:11px;color:#9A8870;font-family:sans-serif;">one-time · no auto-renewal · no hidden fees</p>
+        </div>
+        <div style="background:#FBF4E7;border:1px solid #C8A96E;border-radius:16px;padding:14px;margin-bottom:12px;"><p style="font-family:Georgia,serif;font-size:13px;color:#3A2E22;line-height:1.65;text-align:center;font-style:italic;">"Stop wondering what your people think. Now they're part of the search."</p></div>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:16px;padding:16px;margin-bottom:12px;">
+          <p style="font-size:10px;letter-spacing:0.12em;color:#A8947A;font-family:sans-serif;margin-bottom:12px;">WHAT'S INCLUDED</p>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">Profile-based matching within the Vetted community</p></div>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">Mutual vetting — your circle reviews them, their circle reviews you</p></div>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;"> vet gift budget — included, automatic</p></div>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">ID-verified members only</p></div>
+          <div class="price-item" style="margin-bottom:0;"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">6 months, then renew on your terms — never automatically</p></div>
+        </div>
+        <div style="background:#FAF7F2;border:1px solid #E8DFD0;border-radius:12px;padding:14px;margin-bottom:14px;">
+          <div class="compare-row"><span style="font-size:12px;color:#7A6040;font-family:sans-serif;">Traditional matchmakers</span><span style="font-size:11px;color:#B0A090;font-family:sans-serif;text-decoration:line-through;">$15,000–$50,000</span></div>
+          <div class="compare-row"><span style="font-size:12px;color:#7A6040;font-family:sans-serif;">Vetted — gifting included</span><span style="font-size:13px;color:#C8A96E;font-family:Georgia,serif;">$5,000 / 6 mo</span></div>
+          <div class="compare-row"><span style="font-size:12px;color:#7A6040;font-family:sans-serif;">Hinge, Bumble, Tinder</span><span style="font-size:11px;color:#9A8870;font-family:sans-serif;">Free — and it shows</span></div>
+        </div>
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goL('land-0')">Request an invitation</button>
+        <button class="btn-ghost" onclick="goL('land-how')">← Back</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ REGISTRATION ============================================================ -->
+<div id="sec-registration" style="display:none;">
+  <p class="section-label">REGISTRATION</p>
+  <div class="phone">
+
+    <div class="screen active" id="reg-0">
+      <div class="logo">VETTED</div><div class="logo-sub">registration</div>
+      <div class="sc" style="justify-content:center;align-items:center;text-align:center;">
+        <div style="width:48px;height:1px;background:#C8A96E;margin:0 auto 28px;"></div>
+        <p style="font-family:Georgia,serif;font-size:20px;color:#3A2E22;line-height:1.6;margin-bottom:12px;">Let's build your<br>Vetted profile.</p>
+        <p style="font-size:12px;color:#9A8870;line-height:1.75;font-family:sans-serif;margin-bottom:32px;">A few short questions — focused so your matches are meaningful, not just numerous.</p>
+        <div style="width:48px;height:1px;background:#C8A96E;margin:0 auto 32px;"></div>
+        <button class="btn-g" style="margin-bottom:10px;" onclick="goR('reg-1')">Begin registration</button>
+        <p style="font-size:11px;color:#A8947A;font-family:sans-serif;">Takes about 3 minutes</p>
+      </div>
+    </div>
+
+    <div class="screen" id="reg-1">
+      <div class="prog" id="rpb1"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">What's your<br>name?</p>
+        <p class="ss">Private — only shown to your matchmaker and vets.</p>
+        <label class="lbl">FIRST NAME</label><input class="inp" type="text" placeholder="First name" />
+        <label class="lbl">LAST NAME</label><input class="inp" type="text" placeholder="Last name" />
+        <label class="lbl">PREFERRED NAME (optional)</label><input class="inp" type="text" placeholder="What you go by, if different" />
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goR('reg-2')">Continue</button>
+      </div>
+    </div>
+
+    <div class="screen" id="reg-2">
+      <div class="prog" id="rpb2"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">How old<br>are you?</p>
+        <p class="ss">Your age helps us find the right matches.</p>
+        <label class="lbl">YOUR AGE</label>
+        <input class="inp" type="number" placeholder="e.g. 44" style="font-size:32px;padding:16px;text-align:center;" />
+        <label class="lbl" style="margin-top:4px;">DATE OF BIRTH</label>
+        <input class="inp" type="text" placeholder="MM / DD / YYYY" />
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goR('reg-1')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-3')">Continue</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="reg-3">
+      <div class="prog" id="rpb3"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Age range<br>you're open to?</p>
+        <p class="ss">Set the range you'd genuinely consider.</p>
+        <label class="lbl">MINIMUM AGE</label>
+        <div style="margin-bottom:18px;">
+          <div class="range-val" id="rmin-out">35</div>
+          <input type="range" min="25" max="70" value="35" step="1" oninput="document.getElementById('rmin-out').textContent=this.value;updateRangeSummary()" />
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:#A8947A;font-family:sans-serif;">25</span><span style="font-size:10px;color:#A8947A;font-family:sans-serif;">70</span></div>
+        </div>
+        <label class="lbl">MAXIMUM AGE</label>
+        <div style="margin-bottom:16px;">
+          <div class="range-val" id="rmax-out">55</div>
+          <input type="range" min="25" max="75" value="55" step="1" oninput="document.getElementById('rmax-out').textContent=this.value;updateRangeSummary()" />
+          <div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:#A8947A;font-family:sans-serif;">25</span><span style="font-size:10px;color:#A8947A;font-family:sans-serif;">75</span></div>
+        </div>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:10px;padding:12px;text-align:center;">
+          <p style="font-size:12px;color:#7A6040;font-family:sans-serif;">Open to matches aged <span id="range-summary" style="color:#C8A96E;font-family:Georgia,serif;font-size:14px;">35 – 55</span></p>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goR('reg-2')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-4')">Continue</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="reg-4">
+      <div class="prog" id="rpb4"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Religion &amp;<br>faith.</p>
+        <p class="ss">Used to find meaningful alignment — not to exclude.</p>
+        <div class="chip-grid">
+          <div class="chip" onclick="soloChip(this)">Christian</div><div class="chip" onclick="soloChip(this)">Catholic</div>
+          <div class="chip" onclick="soloChip(this)">Jewish</div><div class="chip" onclick="soloChip(this)">Muslim</div>
+          <div class="chip" onclick="soloChip(this)">Hindu</div><div class="chip" onclick="soloChip(this)">Buddhist</div>
+          <div class="chip" onclick="soloChip(this)">Spiritual</div><div class="chip" onclick="soloChip(this)">Non-religious</div>
+          <div class="chip" onclick="soloChip(this)">Open to all</div><div class="chip" onclick="soloChip(this)">Prefer not to say</div>
+        </div>
+        <label class="lbl" style="margin-top:8px;">IMPORTANCE TO YOU</label>
+        <div><span class="chip-sm sel" onclick="soloSm(this)">Very important</span><span class="chip-sm" onclick="soloSm(this)">Somewhat important</span><span class="chip-sm" onclick="soloSm(this)">Not important</span></div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goR('reg-3')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-5')">Continue</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="reg-5">
+      <div class="prog" id="rpb5"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Children.</p>
+        <p class="ss">Honest answers help us find the right fit for everyone.</p>
+        <label class="lbl">DO YOU HAVE CHILDREN?</label>
+        <div class="chip-grid" style="margin-bottom:20px;">
+          <div class="chip sel" onclick="soloChip(this)">Yes</div><div class="chip" onclick="soloChip(this)">No</div>
+          <div class="chip" onclick="soloChip(this)">Yes — grown up</div><div class="chip" onclick="soloChip(this)">Expecting</div>
+        </div>
+        <label class="lbl">OPEN TO A PARTNER WITH CHILDREN?</label>
+        <div class="chip-grid">
+          <div class="chip sel" onclick="soloChip(this)">Yes, open to it</div><div class="chip" onclick="soloChip(this)">Yes, prefer it</div>
+          <div class="chip" onclick="soloChip(this)">Prefer not</div><div class="chip" onclick="soloChip(this)">Depends on age</div>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goR('reg-4')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-6')">Continue</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="reg-6">
+      <div class="prog" id="rpb6"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Income range.</p>
+        <p class="ss">Optional. Never shown publicly — used for matching only.</p>
+        <label class="lbl">YOUR ANNUAL INCOME</label>
+        <select class="sel-inp"><option value="" disabled selected>Select a range</option><option>Under $75,000</option><option>$75,000 – $125,000</option><option>$125,000 – $200,000</option><option>$200,000 – $350,000</option><option>$350,000 – $500,000</option><option>$500,000+</option><option>Prefer not to say</option></select>
+        <label class="lbl">INCOME RANGE OPEN TO IN A MATCH</label>
+        <select class="sel-inp"><option value="" disabled selected>Select a range</option><option>No preference</option><option>$75,000+</option><option>$125,000+</option><option>$200,000+</option><option>Similar to mine</option><option>Prefer not to say</option></select>
+        <div class="tip-box"><p class="tip-text">Income information is private — visible only for matching, never shown on your profile.</p></div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goR('reg-5')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-7')">Continue</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="reg-7">
+      <div class="prog" id="rpb7"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Review your<br>profile.</p>
+        <p class="ss">Everything looks good? You can update any of this after going live.</p>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:14px;padding:16px;margin-bottom:14px;">
+          <div class="confirm-row"><span class="ck">NAME</span><span class="cv">Sarah Chee, 47</span></div>
+          <div class="confirm-row"><span class="ck">AGE RANGE OPEN TO</span><span class="cv">35 – 55</span></div>
+          <div class="confirm-row"><span class="ck">RELIGION</span><span class="cv">Christian · Very important</span></div>
+          <div class="confirm-row"><span class="ck">CHILDREN</span><span class="cv">Yes</span></div>
+          <div class="confirm-row"><span class="ck">OPEN TO PARTNER WITH KIDS</span><span class="cv">Yes, open to it</span></div>
+          <div class="confirm-row"><span class="ck">INCOME</span><span class="cv">$200,000 – $350,000</span></div>
+        </div>
+        <div class="tip-box"><p class="tip-text">Your profile is private. Only members you match with and your vets will ever see your information.</p></div>
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goR('reg-done')">Submit profile</button>
+        <button class="btn-ghost" onclick="goR('reg-6')">← Back</button>
+      </div>
+    </div>
+
+    <div class="screen" id="reg-done">
+      <div class="sc" style="justify-content:center;align-items:center;text-align:center;padding-top:56px;">
+        <div style="width:76px;height:76px;border-radius:50%;border:2px solid #C8A96E;background:#FBF4E7;display:flex;align-items:center;justify-content:center;font-size:30px;color:#C8A96E;margin:0 auto 22px;">✓</div>
+        <p style="font-family:Georgia,serif;font-size:22px;color:#3A2E22;margin-bottom:8px;line-height:1.4;">Registration<br>complete.</p>
+        <div style="width:40px;height:1px;background:#C8A96E;margin:0 auto 16px;"></div>
+        <p style="font-size:12px;color:#7A6040;line-height:1.7;font-family:sans-serif;max-width:280px;margin-bottom:24px;">Next up — add your video intro, photos, and a written prompt to complete your profile.</p>
+        <button class="btn-g" style="margin-top:0;" onclick="showSection('media')">Continue to media profile</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ MEDIA PROFILE ============================================================ -->
+<div id="sec-media" style="display:none;">
+  <p class="section-label">MEDIA PROFILE</p>
+  <div class="phone">
+
+    <div class="screen active" id="med-0">
+      <div class="logo">VETTED</div><div class="logo-sub">complete your profile</div>
+      <div class="sc" style="justify-content:center;text-align:center;">
+        <div style="width:48px;height:1px;background:#C8A96E;margin:0 auto 28px;"></div>
+        <p style="font-family:Georgia,serif;font-size:20px;color:#3A2E22;line-height:1.6;margin-bottom:12px;">Let them see<br>the real you.</p>
+        <p style="font-size:12px;color:#9A8870;line-height:1.75;font-family:sans-serif;margin-bottom:28px;">A short video, a couple of photos, and one honest sentence.</p>
+        <div style="width:48px;height:1px;background:#C8A96E;margin:0 auto 28px;"></div>
+        <div style="display:flex;flex-direction:column;gap:10px;width:100%;margin-bottom:24px;">
+          <div style="display:flex;align-items:center;gap:14px;background:#FDF9F4;border:1px solid #E0D4C0;border-radius:12px;padding:14px;"><div class="step-num">1</div><div style="text-align:left;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Video intro</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">60 seconds · prompt-based</p></div></div>
+          <div style="display:flex;align-items:center;gap:14px;background:#FDF9F4;border:1px solid #E0D4C0;border-radius:12px;padding:14px;"><div class="step-num">2</div><div style="text-align:left;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">1–2 photos</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Optional · visible to the Vetted community</p></div></div>
+          <div style="display:flex;align-items:center;gap:14px;background:#FDF9F4;border:1px solid #E0D4C0;border-radius:12px;padding:14px;"><div class="step-num">3</div><div style="text-align:left;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">One written prompt</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Optional · a helpful conversation starter</p></div></div>
+        </div>
+        <button class="btn-g" onclick="goM('med-1')">Let's do it</button>
+      </div>
+    </div>
+
+    <div class="screen" id="med-1">
+      <div class="prog" id="mpb1"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Choose your<br>prompt.</p>
+        <p class="ss">Pick the one that feels most natural. You'll record a 60-second response.</p>
+        <div class="prompt-card sel" id="mp1" onclick="selPrompt('mp1')"><p class="prompt-tag">EVERYDAY LIFE</p><p>"Walk me through what a really good Sunday looks like for you."</p></div>
+        <div class="prompt-card" id="mp2" onclick="selPrompt('mp2')"><p class="prompt-tag">WHO YOU ARE</p><p>"Tell me something about yourself that doesn't show up on a profile."</p></div>
+        <div class="prompt-card" id="mp3" onclick="selPrompt('mp3')"><p class="prompt-tag">WHAT YOU'RE LOOKING FOR</p><p>"Describe the kind of partnership you're genuinely hoping to find."</p></div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goM('med-0')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goM('med-2')">Use this prompt</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="med-2">
+      <div class="prog" id="mpb2"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Record your<br>intro.</p>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:10px;padding:12px;margin-bottom:16px;"><p style="font-size:12px;color:#5C4D3A;font-family:Georgia,serif;line-height:1.55;font-style:italic;">"Walk me through what a really good Sunday looks like for you."</p></div>
+        <label class="lbl">FORMAT</label>
+        <div style="display:flex;gap:10px;margin-bottom:14px;">
+          
+        </div>
+        <div class="record-area" id="mrec" onclick="toggleRec()">
+          <div class="rec-icon" id="mrec-icon"><div class="rec-dot" id="mrec-dot"></div></div>
+          <p style="font-size:14px;color:#3A2E22;font-family:sans-serif;font-weight:500;margin-bottom:4px;" id="mrec-title">Tap to start recording</p>
+          <p style="font-size:11px;color:#9A8870;font-family:sans-serif;" id="mrec-sub">Up to 60 seconds · Video preferred</p>
+          <div style="font-family:Georgia,serif;font-size:28px;color:#E24B4A;text-align:center;margin:8px 0;display:none;" id="mrec-timer">0:00</div>
+          <div class="waveform" id="mrec-wave" style="display:none;"><div class="wave-bar" style="height:8px;"></div><div class="wave-bar" style="height:18px;"></div><div class="wave-bar" style="height:12px;"></div><div class="wave-bar" style="height:24px;"></div><div class="wave-bar" style="height:14px;"></div><div class="wave-bar" style="height:20px;"></div><div class="wave-bar" style="height:10px;"></div></div>
+        </div>
+        <div class="tip-box"><p class="tip-text">You can re-record as many times as you like. Only your final take is saved.</p></div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goM('med-1')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goM('med-3')">Use this recording</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="med-3">
+      <div class="prog" id="mpb3"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Add your<br>photos.</p>
+        <p class="ss">1–2 photos. Private — seen only by your vets and matches.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+          <div class="photo-slot filled"><p style="font-family:Georgia,serif;font-size:36px;color:#C8A96E;opacity:0.5;">SC</p><div style="position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;background:#EAF3DE;border:1px solid #639922;display:flex;align-items:center;justify-content:center;font-size:10px;color:#3B6D11;">✓</div><div style="position:absolute;bottom:8px;left:0;right:0;text-align:center;"><span style="font-size:10px;color:#7A5C20;font-family:sans-serif;background:#FBF4E7;padding:2px 8px;border-radius:8px;">Primary</span></div></div>
+          <div class="photo-slot empty"><div style="width:36px;height:36px;border-radius:50%;background:#F0E8D8;border:1px solid #C8A96E;display:flex;align-items:center;justify-content:center;font-size:18px;color:#C8A96E;margin-bottom:6px;">+</div><p style="font-size:11px;color:#A8947A;font-family:sans-serif;">Add 2nd photo</p></div>
+        </div>
+        <div class="tip-box"><p class="tip-text">Natural light, recent, just you in frame. Avoid group photos as your primary shot.</p></div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goM('med-2')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goM('med-4')">Continue</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="med-4">
+      <div class="prog" id="mpb4"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:16px;">Your Vetted Note<br>&amp; prompt.</p>
+      <label class="lbl" style="margin-top:4px;">YOUR VETTED NOTE</label>
+      <div style="background:#FBF4E7;border:1px solid #C8A96E;border-radius:12px;padding:14px;margin-bottom:16px;">
+        <p style="font-size:11px;color:#A8947A;font-family:sans-serif;line-height:1.6;margin-bottom:10px;">A short personal note — in your own words — that your matches will see when they're considering you. The real you, beyond the profile.</p>
+        <textarea class="ta" rows="4" maxlength="300" placeholder="e.g. I'm looking for someone who values depth over small talk, believes family comes first, and isn't afraid of a real conversation over a long dinner..." id="vetted-note-ta" oninput="document.getElementById('vncc').textContent=(300-this.value.length)+' characters remaining'"></textarea>
+        <p style="font-size:10px;color:#A8947A;font-family:sans-serif;text-align:right;margin-top:4px;" id="vncc">300 characters remaining</p>
+      </div>
+        <p class="ss">Optional — but members who complete this get much more meaningful vet feedback.</p>
+        <label class="lbl">CHOOSE A PROMPT</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+          <div style="border:1px solid #C8A96E;background:#FBF4E7;border-radius:10px;padding:12px;cursor:pointer;" id="wq1" onclick="selWQ('wq1')"><p style="font-size:12px;color:#7A5C20;font-family:sans-serif;line-height:1.5;">The thing most people don't know about me is...</p></div>
+          <div style="border:1px solid #E0D4C0;background:#FDF9F4;border-radius:10px;padding:12px;cursor:pointer;" id="wq2" onclick="selWQ('wq2')"><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">I'm at my best when...</p></div>
+          <div style="border:1px solid #E0D4C0;background:#FDF9F4;border-radius:10px;padding:12px;cursor:pointer;" id="wq3" onclick="selWQ('wq3')"><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">The kind of relationship I'm really hoping for looks like...</p></div>
+        </div>
+        <label class="lbl">YOUR RESPONSE</label>
+        <textarea class="ta" rows="4" maxlength="200" placeholder="Write freely — this is just for you and your vets..." id="wta" oninput="document.getElementById('wcc').textContent=(200-this.value.length)+' characters remaining'"></textarea>
+        <p style="font-size:10px;color:#A8947A;font-family:sans-serif;text-align:right;margin-top:4px;" id="wcc">200 characters remaining</p>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goM('med-3')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goM('med-done')">Submit profile</button></div>
+      </div>
+    </div>
+
+    <div class="screen" id="med-done">
+      <div class="sc" style="justify-content:center;align-items:center;text-align:center;padding-top:52px;">
+        <div style="width:76px;height:76px;border-radius:50%;border:2px solid #C8A96E;background:#FBF4E7;display:flex;align-items:center;justify-content:center;font-size:30px;color:#C8A96E;margin:0 auto 22px;">✓</div>
+        <p style="font-family:Georgia,serif;font-size:22px;color:#3A2E22;margin-bottom:8px;line-height:1.4;">Profile complete.</p>
+        <div style="width:40px;height:1px;background:#C8A96E;margin:0 auto 16px;"></div>
+        <p style="font-size:12px;color:#7A6040;line-height:1.7;font-family:sans-serif;max-width:280px;margin-bottom:24px;">One step left — nominate your 2 vets to start receiving matches.</p>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:14px;padding:16px;width:100%;text-align:left;margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid #E8DFD0;"><div style="width:20px;height:20px;border-radius:50%;background:#EAF3DE;border:1px solid #639922;display:flex;align-items:center;justify-content:center;font-size:10px;color:#3B6D11;flex-shrink:0;">✓</div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;">Registration complete</p></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid #E8DFD0;"><div style="width:20px;height:20px;border-radius:50%;background:#EAF3DE;border:1px solid #639922;display:flex;align-items:center;justify-content:center;font-size:10px;color:#3B6D11;flex-shrink:0;">✓</div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;">Media profile complete</p></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;"><div style="width:20px;height:20px;border-radius:50%;background:#FBF4E7;border:1px solid #C8A96E;display:flex;align-items:center;justify-content:center;font-size:10px;color:#C8A96E;flex-shrink:0;">3</div><p style="font-size:12px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Nominate your 2 vets</p></div>
+        </div>
+        <button class="btn-g" onclick="showSection('vetting')">Nominate my vets →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ PRICING ============================================================ -->
+<div id="sec-pricing" style="display:none;">
+  <p class="section-label">PRICING & MEMBERSHIP</p>
+  <div class="phone">
+    <div class="screen active" id="pr-0">
+      <div class="logo">VETTED</div><div class="logo-sub">membership</div>
+      <div class="sc">
+        <div style="text-align:center;margin:12px 0 18px;">
+          <p style="font-size:10px;letter-spacing:0.14em;color:#A8947A;font-family:sans-serif;margin-bottom:6px;">6-MONTH MEMBERSHIP</p>
+          <p style="font-family:Georgia,serif;font-size:52px;color:#3A2E22;line-height:1;margin-bottom:4px;">$5,000</p>
+          <p style="font-size:11px;color:#9A8870;font-family:sans-serif;">one-time · no auto-renewal · no hidden fees</p>
+        </div>
+        <div style="background:#FBF4E7;border:1px solid #C8A96E;border-radius:16px;padding:14px;margin-bottom:12px;"><p style="font-family:Georgia,serif;font-size:13px;color:#3A2E22;line-height:1.65;text-align:center;font-style:italic;">"Stop wondering what your people think. Now they're part of the search."</p></div>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:16px;padding:16px;margin-bottom:12px;">
+          <p style="font-size:10px;letter-spacing:0.12em;color:#A8947A;font-family:sans-serif;margin-bottom:12px;">WHAT'S INCLUDED</p>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">Profile-based matching within the Vetted community</p></div>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">Mutual vetting — your circle reviews them, their circle reviews you</p></div>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;"> vet gift budget — included, automatic</p></div>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">ID-verified members only</p></div>
+          <div class="price-item" style="margin-bottom:0;"><div class="price-dot"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">6 months, then renew on your terms — never automatically</p></div>
+        </div>
+        <div style="background:#FAF7F2;border:1px solid #E8DFD0;border-radius:12px;padding:14px;margin-bottom:14px;">
+          <div class="compare-row"><span style="font-size:12px;color:#7A6040;font-family:sans-serif;">Traditional matchmakers</span><span style="font-size:11px;color:#B0A090;font-family:sans-serif;text-decoration:line-through;">$15,000–$50,000</span></div>
+          <div class="compare-row"><span style="font-size:12px;color:#7A6040;font-family:sans-serif;">Vetted — gifting included</span><span style="font-size:13px;color:#C8A96E;font-family:Georgia,serif;">$5,000 / 6 mo</span></div>
+          <div class="compare-row"><span style="font-size:12px;color:#7A6040;font-family:sans-serif;">Hinge, Bumble, Tinder</span><span style="font-size:11px;color:#9A8870;font-family:sans-serif;">Free — and it shows</span></div>
+        </div>
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goP('pr-confirm')">Claim my spot — $5,000</button>
+        <button class="btn-ghost" onclick="goP('pr-credits')">How does the gift budget work?</button>
+      </div>
+    </div>
+    <div class="screen" id="pr-confirm">
+      <div class="logo">VETTED</div><div class="logo-sub">membership</div>
+      <div class="sc">
+        <p class="sh" style="margin-top:10px;">Confirm your<br>membership.</p>
+        <p class="ss">6-month cohort begins the day payment is confirmed. No auto-renewal — ever.</p>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;">MEMBERSHIP</p><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;">6-month cohort</p></div>
+          <div class="divl"></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;">GIFT BUDGET</p><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;">$150/mo included</p></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;">AUTO-RENEWS</p><p style="font-size:13px;color:#3B6D11;font-family:sans-serif;">Never</p></div>
+          <div class="divl"></div>
+          <div style="display:flex;justify-content:space-between;"><p style="font-size:14px;color:#3A2E22;font-family:Georgia,serif;">Total due today</p><p style="font-size:20px;color:#3A2E22;font-family:Georgia,serif;">$5,000</p></div>
+        </div>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:12px;padding:14px;margin-bottom:14px;">
+          <p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;margin-bottom:10px;">PAYMENT</p>
+          <div style="display:flex;gap:10px;margin-bottom:10px;"><div style="flex:1;padding:11px 14px;background:#FDF9F4;border:1px solid #C8A96E;border-radius:10px;font-size:13px;color:#3A2E22;font-family:sans-serif;">Card</div><div style="padding:11px 14px;background:#FDF9F4;border:1px solid #E0D4C0;border-radius:10px;font-size:13px;color:#9A8870;font-family:sans-serif;">ACH / Bank</div></div>
+          <div style="padding:12px 14px;background:#FDF9F4;border:1px solid #E0D4C0;border-radius:10px;font-size:13px;color:#C4B59E;font-family:sans-serif;margin-bottom:8px;">Card number</div>
+          <div style="display:flex;gap:8px;"><div style="flex:1;padding:12px 14px;background:#FDF9F4;border:1px solid #E0D4C0;border-radius:10px;font-size:13px;color:#C4B59E;font-family:sans-serif;">MM / YY</div><div style="flex:1;padding:12px 14px;background:#FDF9F4;border:1px solid #E0D4C0;border-radius:10px;font-size:13px;color:#C4B59E;font-family:sans-serif;">CVC</div></div>
+        </div>
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goP('pr-welcome')">Pay $5,000 & activate</button>
+        <button class="btn-ghost" onclick="goP('pr-0')">← Back</button>
+      </div>
+    </div>
+    <div class="screen" id="pr-credits">
+      <div class="logo">VETTED</div><div class="logo-sub">vet gift budget</div>
+      <div class="sc">
+        <p class="sh" style="margin-top:10px;">Your <br>gift budget.</p>
+        <p class="ss">Included in every membership. Gifts are sent automatically — no action needed from you.</p>
+        <div style="background:#FBF4E7;border:1px solid #C8A96E;border-radius:16px;padding:18px;text-align:center;margin-bottom:12px;">
+          <p style="font-size:10px;letter-spacing:0.14em;color:#A8947A;font-family:sans-serif;margin-bottom:8px;">APRIL GIFTING BUDGET</p>
+          <p style="font-family:Georgia,serif;font-size:40px;color:#3A2E22;line-height:1;margin-bottom:4px;">$150</p>
+          <p style="font-size:11px;color:#9A8870;font-family:sans-serif;margin-bottom:12px;">resets May 1 · unused credits do not roll over</p>
+          <div class="progress-track"><div class="progress-fill" style="width:33%;"></div></div>
+          <div style="display:flex;justify-content:space-between;"><p style="font-size:10px;color:#A8947A;font-family:sans-serif;">$50 used</p><p style="font-size:10px;color:#A8947A;font-family:sans-serif;">$100 remaining</p></div>
+        </div>
+        <div class="card">
+          <p style="font-size:10px;letter-spacing:0.1em;color:#A8947A;font-family:sans-serif;margin-bottom:12px;"></p>
+          <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid #E8DFD0;"><p style="font-size:12px;color:#7A6040;font-family:sans-serif;">Per completed review</p><p style="font-size:13px;color:#C8A96E;font-family:Georgia,serif;">a curated gift</p></div>
+          <div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid #E8DFD0;"><p style="font-size:12px;color:#7A6040;font-family:sans-serif;"></p><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;">$150</p></div>
+          <div style="display:flex;justify-content:space-between;padding:7px 0;"><p style="font-size:12px;color:#7A6040;font-family:sans-serif;"></p><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;"></p></div>
+        </div>
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goP('pr-0')">Back to membership</button>
+      </div>
+    </div>
+    <div class="screen" id="pr-welcome">
+      <div class="sc" style="justify-content:center;align-items:center;text-align:center;padding-top:56px;">
+        <div style="width:76px;height:76px;border-radius:50%;border:2px solid #C8A96E;background:#FBF4E7;display:flex;align-items:center;justify-content:center;font-size:30px;color:#C8A96E;margin:0 auto 22px;">✓</div>
+        <p style="font-family:Georgia,serif;font-size:22px;color:#3A2E22;margin-bottom:8px;line-height:1.4;">Welcome to<br>Vetted.</p>
+        <div style="width:40px;height:1px;background:#C8A96E;margin:0 auto 16px;"></div>
+        <p style="font-size:12px;color:#7A6040;line-height:1.7;font-family:sans-serif;max-width:280px;margin-bottom:24px;">Your membership is active. Complete your profile and nominate your vets to start receiving matches.</p>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:14px;padding:16px;width:100%;text-align:left;margin-bottom:20px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;">AMOUNT PAID</p><p style="font-size:12px;color:#3A2E22;font-family:sans-serif;">$5,000</p></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;">MONTHLY GIFT BUDGET</p><p style="font-size:12px;color:#C8A96E;font-family:Georgia,serif;"></p></div>
+          <div style="display:flex;justify-content:space-between;"><p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;">AUTO-RENEWS</p><p style="font-size:12px;color:#3B6D11;font-family:sans-serif;">Never</p></div>
+        </div>
+        <button class="btn-g" onclick="showSection('registration')">Complete my profile</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ MATCHING ============================================================ -->
+<div id="sec-matching" style="display:none;">
+  <p class="section-label">MATCHING & VETTING</p>
+  <div class="phone">
+    <div class="screen active" id="mat-0">
+      <div class="logo">VETTED</div><div class="logo-sub">your matches</div>
+      <div class="sc">
+        <p class="sh" style="margin-top:10px;">Your matches.</p>
+        <p class="ss">Curated from the Vetted community based on your profile. Review each candidate and send the ones you like to your vets.</p>
+        <div class="card" style="cursor:pointer;" onclick="goMat('mat-cand')">
+          <div style="display:flex;gap:14px;align-items:center;">
+            <div class="avatar" style="width:52px;height:52px;font-size:16px;">MR</div>
+            <div style="flex:1;"><p style="font-family:Georgia,serif;font-size:16px;color:#3A2E22;margin-bottom:2px;">Marcus, 45</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Austin, TX · Architect</p><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;"><span style="padding:4px 10px;border-radius:20px;background:#F0E8D8;color:#7A5C20;font-size:10px;font-family:sans-serif;">Family values</span><span style="padding:4px 10px;border-radius:20px;background:#F0E8D8;color:#7A5C20;font-size:10px;font-family:sans-serif;">Shared faith</span></div></div>
+            <div style="font-size:18px;color:#C8A96E;">›</div>
+          </div>
+        </div>
+        <div class="card" style="cursor:pointer;">
+          <div style="display:flex;gap:14px;align-items:center;">
+            <div class="avatar" style="background:#E8DFD0;color:#A8947A;width:52px;height:52px;font-size:16px;">DH</div>
+            <div style="flex:1;"><p style="font-family:Georgia,serif;font-size:16px;color:#3A2E22;margin-bottom:2px;">David, 48</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Houston, TX · Finance</p><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;"><span style="padding:4px 10px;border-radius:20px;background:#F0E8D8;color:#7A5C20;font-size:10px;font-family:sans-serif;">Intellectual depth</span><span style="padding:4px 10px;border-radius:20px;background:#F0E8D8;color:#7A5C20;font-size:10px;font-family:sans-serif;">Travel</span></div></div>
+            <div style="font-size:18px;color:#C8A96E;">›</div>
+          </div>
+        </div>
+        <div class="card" style="opacity:0.5;">
+          <div style="display:flex;gap:14px;align-items:center;">
+            <div class="avatar" style="background:#E8DFD0;color:#A8947A;width:52px;height:52px;font-size:16px;">JT</div>
+            <div style="flex:1;"><p style="font-family:Georgia,serif;font-size:16px;color:#3A2E22;margin-bottom:2px;">James, 42</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Dallas, TX · Medicine</p></div>
+            <div style="font-size:10px;color:#A8947A;font-family:sans-serif;background:#F0E8D8;padding:4px 8px;border-radius:8px;">Unlocks tomorrow</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="screen" id="mat-cand">
+      <div class="prog" id="matpb"></div>
+      <div class="sc">
+        <div style="width:100%;height:180px;background:#F0E8D8;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;position:relative;">
+          <p style="font-family:Georgia,serif;font-size:48px;color:#C8A96E;opacity:0.5;">MR</p>
+          <div style="position:absolute;bottom:10px;right:10px;background:#FAF7F2;border:1px solid #C8A96E;border-radius:8px;padding:4px 10px;font-size:10px;color:#7A5C20;font-family:sans-serif;letter-spacing:0.06em;">ID VERIFIED</div>
+        </div>
+        <p style="font-family:Georgia,serif;font-size:20px;color:#3A2E22;margin-bottom:2px;">Marcus, 45</p>
+        <p style="font-size:12px;color:#9A8870;font-family:sans-serif;margin-bottom:12px;">Austin, TX · Architect · 6'1"</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;"><span style="padding:5px 12px;border-radius:20px;background:#F0E8D8;color:#7A5C20;font-size:11px;font-family:sans-serif;">Family values</span><span style="padding:5px 12px;border-radius:20px;background:#F0E8D8;color:#7A5C20;font-size:11px;font-family:sans-serif;">Shared faith</span><span style="padding:5px 12px;border-radius:20px;background:#F0E8D8;color:#7A5C20;font-size:11px;font-family:sans-serif;">Financial stability</span></div>
+        <p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.65;margin-bottom:16px;">"I'm at a place where I'm genuinely ready. I'm looking for a real partnership — someone to build with, travel with, and grow with."</p>
+        <div style="height:0.5px;background:#E8DFD0;margin-bottom:14px;"></div>
+        <div style="display:flex;gap:10px;">
+          
+        <div class="vetted-note-box">
+          <span class="vetted-note-badge">VETTED NOTE</span>
+          <p class="vetted-note-text">"I'm at a point in life where I know what I want — a real partner to build with, adventure with, and come home to. Family is everything to me. If you value depth over small talk, I think we'd have a lot to talk about."</p>
+          <p class="vetted-note-author">— Marcus, in his own words</p>
+        </div>
+        <button style="flex:1;padding:13px 0;border-radius:12px;font-size:13px;font-family:sans-serif;cursor:pointer;border:1px solid #E0D4C0;background:#FDF9F4;color:#5C4D3A;" onclick="goMat('mat-0')">Pass</button>
+          <button style="flex:1;padding:13px 0;border-radius:12px;font-size:13px;font-family:sans-serif;cursor:pointer;background:#C8A96E;border:none;color:#FDF9F4;" onclick="goMat('mat-sent')">Send to my vets</button>
+        </div>
+        <div class="fnav"><button class="back-btn" onclick="goMat('mat-0')">← Back</button></div>
+      </div>
+    </div>
+    <div class="screen" id="mat-sent">
+      <div class="logo">VETTED</div><div class="logo-sub">sent to vets</div>
+      <div class="sc">
+        <p class="sh" style="margin-top:10px;">Sent to<br>your vets.</p>
+        <p class="ss">Your contacts have been notified. You'll get a summary once both respond.</p>
+        <div class="card">
+          <p style="font-size:10px;letter-spacing:0.1em;color:#A8947A;font-family:sans-serif;margin-bottom:12px;">CONTACT STATUS</p>
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid #E8DFD0;"><div class="avatar">JC</div><div style="flex:1;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Jessica (sister)</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Notified just now</p></div><span class="pill">Pending</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;"><div class="avatar" style="background:#E8DFD0;color:#A8947A;">KM</div><div style="flex:1;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Kim (best friend)</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Notified just now</p></div><span class="pill">Pending</span></div>
+        </div>
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goMat('mat-summary')">Preview: both vets responded →</button>
+        <button class="btn-ghost" onclick="goMat('mat-0')">Back to matches</button>
+      </div>
+    </div>
+    <div class="screen" id="mat-summary">
+      <div class="logo">VETTED</div><div class="logo-sub">vet summary</div>
+      <div class="sc">
+        <p class="sh" style="margin-top:10px;">Your vet<br>summary.</p>
+        <p class="ss">Both vets have weighed in on Marcus. Here's their private feedback — just for you.</p>
+        <div class="score-row"><div class="score-card"><div class="score-num">2/2</div><div class="score-lbl">APPROVED</div></div><div class="score-card"><div class="score-num">4.5</div><div class="score-lbl">AVG RATING</div></div></div>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:14px;padding:14px;margin-bottom:10px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div class="avatar" style="width:34px;height:34px;font-size:12px;">JC</div><div style="flex:1;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Jessica (sister)</p><div style="display:flex;gap:2px;margin-top:2px;"><span style="font-size:13px;color:#C8A96E;">★</span><span style="font-size:13px;color:#C8A96E;">★</span><span style="font-size:13px;color:#C8A96E;">★</span><span style="font-size:13px;color:#C8A96E;">★</span><span style="font-size:13px;color:#C8A96E;">★</span></div></div><span class="pill" style="background:#EAF3DE;color:#3B6D11;">↑ Approve</span></div>
+          <div class="fb-card"><p class="fb-q">PRIVATE NOTE</p><p class="fb-a">"He seems genuinely grounded. His values around family really stood out — I think you'd have a lot to talk about. Go for it."</p></div>
+        </div>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:14px;padding:14px;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div class="avatar" style="background:#E8DFD0;color:#A8947A;width:34px;height:34px;font-size:12px;">KM</div><div style="flex:1;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Kim (best friend)</p><div style="display:flex;gap:2px;margin-top:2px;"><span style="font-size:13px;color:#C8A96E;">★</span><span style="font-size:13px;color:#C8A96E;">★</span><span style="font-size:13px;color:#C8A96E;">★</span><span style="font-size:13px;color:#C8A96E;">★</span><span style="font-size:13px;color:#E0D4C0;">★</span></div></div><span class="pill" style="background:#EAF3DE;color:#3B6D11;">↑ Approve</span></div>
+          <div class="fb-card"><p class="fb-q">PRIVATE NOTE</p><p class="fb-a">"Solid profile — love that he's outdoorsy. Only thing I'd check: make sure he's fully done with his last relationship before you meet."</p></div>
+        </div>
+        <div style="flex:1;"></div>
+        <button class="btn-g">I'm interested — let's meet</button>
+        <button class="btn-ghost" onclick="goMat('mat-0')">Not right now</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ VET NOMINATION ============================================================ -->
+<div id="sec-vetting" style="display:none;">
+  <p class="section-label">VET NOMINATION</p>
+  <div class="phone">
+    <div class="screen active" id="vn-0">
+      <div class="logo">VETTED</div><div class="logo-sub">vet nomination</div>
+      <div class="sc" style="justify-content:center;text-align:center;">
+        <div style="width:48px;height:1px;background:#C8A96E;margin:0 auto 28px;"></div>
+        <p style="font-family:Georgia,serif;font-size:20px;color:#3A2E22;line-height:1.6;margin-bottom:12px;">Choose your two<br>trusted contacts.</p>
+        <p style="font-size:12px;color:#9A8870;line-height:1.75;font-family:sans-serif;margin-bottom:28px;">Your contacts privately review candidates you're interested in — and send you their honest feedback before you meet anyone.</p>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:14px;padding:16px;width:100%;text-align:left;margin-bottom:24px;">
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;"><div style="width:5px;height:5px;border-radius:50%;background:#C8A96E;flex-shrink:0;margin-top:5px;"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">They receive a private SMS invite — no app download required</p></div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;"><div style="width:5px;height:5px;border-radius:50%;background:#C8A96E;flex-shrink:0;margin-top:5px;"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">Their feedback goes only to you — completely private</p></div>
+          <div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:5px;height:5px;border-radius:50%;background:#C8A96E;flex-shrink:0;margin-top:5px;"></div><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">They earn a curated gift in gifts for each review they complete</p></div>
+        </div>
+        <button class="btn-g" onclick="goV('vn-1')">Choose my contacts</button>
+      </div>
+    </div>
+    <div class="screen" id="vn-1">
+      <div class="prog" id="vnpb1"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:14px;">Contact 1 — pick<br>from contacts.</p>
+        <p class="ss">Choose someone who knows you well and will be honest with you.</p>
+        <div style="background:#FDF9F4;border:1px solid #E0D4C0;border-radius:14px;padding:4px 0;">
+          <div class="contact-row" onclick="goV('vn-1b')"><div class="avatar">JC</div><div style="flex:1;"><p class="contact-name">Jessica Chee</p><p class="contact-detail">(512) 555-0182</p></div><span style="font-size:12px;color:#A8947A;font-family:sans-serif;">Sister</span></div>
+          <div class="contact-row" onclick="goV('vn-1b')"><div class="avatar" style="background:#E8DFD0;color:#A8947A;">KM</div><div style="flex:1;"><p class="contact-name">Kim Martinez</p><p class="contact-detail">(512) 555-0247</p></div><span style="font-size:12px;color:#A8947A;font-family:sans-serif;">Best friend</span></div>
+          <div class="contact-row" onclick="goV('vn-1b')"><div class="avatar" style="background:#E8DFD0;color:#A8947A;">MW</div><div style="flex:1;"><p class="contact-name">Marcus Webb</p><p class="contact-detail">(512) 555-0391</p></div><span style="font-size:12px;color:#A8947A;font-family:sans-serif;">Colleague</span></div>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goV('vn-0')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goV('vn-1b')">Continue</button></div>
+      </div>
+    </div>
+    <div class="screen" id="vn-1b">
+      <div class="prog" id="vnpb1b"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:14px;">How do you<br>know this contact?</p>
+        <p class="ss">Helps candidates understand who's reviewing them — no personal details shared.</p>
+        <label class="lbl">RELATIONSHIP</label>
+        <div style="margin-bottom:16px;"><span class="chip-sm sel" onclick="soloSm(this)">Sister</span><span class="chip-sm" onclick="soloSm(this)">Best friend</span><span class="chip-sm" onclick="soloSm(this)">Close friend</span><span class="chip-sm" onclick="soloSm(this)">Colleague</span><span class="chip-sm" onclick="soloSm(this)">Cousin</span><span class="chip-sm" onclick="soloSm(this)">Mentor</span></div>
+        <label class="lbl">DIRECT MESSAGING</label>
+        <div style="background:#FDF9F4;border:1px solid #E0D4C0;border-radius:12px;padding:4px 14px;margin-bottom:14px;">
+          <div class="toggle-row"><div><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Allow Jessica to message candidates</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;margin-top:2px;">She can ask follow-up questions directly</p></div><div class="toggle-track" id="tog-vn1" onclick="toggleSw('tog-vn1')"><div class="toggle-thumb"></div></div></div>
+        </div>
+        <div class="tip-box"><p class="tip-text">Jessica will only see profiles for candidates you've specifically sent to her.</p></div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goV('vn-1')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goV('vn-2')">Continue to Contact 2</button></div>
+      </div>
+    </div>
+    <div class="screen" id="vn-2">
+      <div class="prog" id="vnpb2"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:14px;">Contact 2 — pick<br>from contacts.</p>
+        <p class="ss">Choose a second contact who knows a different side of you.</p>
+        <div style="background:#FDF9F4;border:1px solid #E0D4C0;border-radius:14px;padding:4px 0;">
+          <div class="contact-row" style="opacity:0.4;"><div class="avatar">JC</div><div style="flex:1;"><p class="contact-name">Jessica Chee</p><p class="contact-detail">Already selected as Contact 1</p></div></div>
+          <div class="contact-row" onclick="goV('vn-2b')"><div class="avatar" style="background:#E8DFD0;color:#A8947A;">KM</div><div style="flex:1;"><p class="contact-name">Kim Martinez</p><p class="contact-detail">(512) 555-0247</p></div><span style="font-size:12px;color:#A8947A;font-family:sans-serif;">Best friend</span></div>
+          <div class="contact-row" onclick="goV('vn-2b')"><div class="avatar" style="background:#E8DFD0;color:#A8947A;">DC</div><div style="flex:1;"><p class="contact-name">Diane Chee</p><p class="contact-detail">(512) 555-0104</p></div><span style="font-size:12px;color:#A8947A;font-family:sans-serif;">Cousin</span></div>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goV('vn-1b')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goV('vn-2b')">Continue</button></div>
+      </div>
+    </div>
+    <div class="screen" id="vn-2b">
+      <div class="prog" id="vnpb2b"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:14px;">How do you<br>know this contact?</p>
+        <p class="ss">Helps candidates understand who's reviewing them.</p>
+        <label class="lbl">RELATIONSHIP</label>
+        <div style="margin-bottom:16px;"><span class="chip-sm" onclick="soloSm(this)">Sister</span><span class="chip-sm sel" onclick="soloSm(this)">Best friend</span><span class="chip-sm" onclick="soloSm(this)">Close friend</span><span class="chip-sm" onclick="soloSm(this)">Colleague</span><span class="chip-sm" onclick="soloSm(this)">Cousin</span></div>
+        <label class="lbl">DIRECT MESSAGING</label>
+        <div style="background:#FDF9F4;border:1px solid #E0D4C0;border-radius:12px;padding:4px 14px;margin-bottom:14px;">
+          <div class="toggle-row"><div><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Allow Kim to message candidates</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;margin-top:2px;">She can ask follow-up questions directly</p></div><div class="toggle-track on" id="tog-vn2" onclick="toggleSw('tog-vn2')"><div class="toggle-thumb"></div></div></div>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goV('vn-2')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goV('vn-3')">Set review questions</button></div>
+      </div>
+    </div>
+    <div class="screen" id="vn-3">
+      <div class="prog" id="vnpb3"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:14px;">Review<br>questions.</p>
+        <p class="ss">Two standard questions from Vetted, plus one you choose.</p>
+        <div class="q-card"><p class="q-num">VETTED STANDARD — Q1</p><p class="q-text">What are you genuinely looking for right now — and where are you in that journey?</p><div style="background:#F0E8D8;border-radius:6px;padding:6px 10px;"><p style="font-size:10px;color:#7A5C20;font-family:sans-serif;">Standard across all Vetted reviews</p></div></div>
+        <div class="q-card"><p class="q-num">VETTED STANDARD — Q2</p><p class="q-text">How do the people closest to you describe you in a relationship?</p><div style="background:#F0E8D8;border-radius:6px;padding:6px 10px;"><p style="font-size:10px;color:#7A5C20;font-family:sans-serif;">Standard across all Vetted reviews</p></div></div>
+        <label class="lbl" style="margin-top:4px;">YOUR QUESTION</label>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
+          <div style="border:1px solid #C8A96E;background:#FBF4E7;border-radius:10px;padding:12px;cursor:pointer;" id="cq-a" onclick="selCQ('cq-a')"><p style="font-size:12px;color:#7A5C20;font-family:sans-serif;line-height:1.5;">What does a typical weekend look like for you?</p></div>
+          <div style="border:1px solid #E0D4C0;background:#FDF9F4;border-radius:10px;padding:12px;cursor:pointer;" id="cq-b" onclick="selCQ('cq-b')"><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">How important is family in your day-to-day life?</p></div>
+          <div style="border:1px solid #E0D4C0;background:#FDF9F4;border-radius:10px;padding:12px;cursor:pointer;" id="cq-c" onclick="selCQ('cq-c')"><p style="font-size:12px;color:#5C4D3A;font-family:sans-serif;line-height:1.5;">What have you learned about yourself from past relationships?</p></div>
+        </div>
+        <div style="flex:1;"></div>
+        <div class="fnav"><button class="back-btn" onclick="goV('vn-2b')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goV('vn-sent')">Send invites</button></div>
+      </div>
+    </div>
+    <div class="screen" id="vn-sent">
+      <div class="prog" id="vnpb-sent"></div>
+      <div class="sc">
+        <p class="sh" style="margin-top:14px;">Invites sent.</p>
+        <p class="ss">Both your contacts have been sent a private SMS.</p>
+        <div style="background:#F0F0F0;border-radius:16px;padding:18px;margin-bottom:14px;">
+          <p style="font-size:10px;letter-spacing:0.1em;color:#888;font-family:sans-serif;margin-bottom:12px;text-align:center;">SMS PREVIEW</p>
+          
+        <div class="card">
+          <p style="font-size:10px;letter-spacing:0.1em;color:#A8947A;font-family:sans-serif;margin-bottom:12px;">CONTACT STATUS</p>
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid #E8DFD0;"><div class="avatar">JC</div><div style="flex:1;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Jessica (sister)</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Invite sent just now</p></div><span class="pill">Pending</span></div>
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;"><div class="avatar" style="background:#E8DFD0;color:#A8947A;">KM</div><div style="flex:1;"><p style="font-size:13px;color:#3A2E22;font-family:sans-serif;font-weight:500;">Kim (best friend)</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Invite sent just now</p></div><span class="pill">Pending</span></div>
+        </div>
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goV('vn-vet')">Preview: Jessica accepts ›</button>
+        <button class="btn-ghost" onclick="showSection('matching')">Go to my matches</button>
+      </div>
+    </div>
+    <div class="screen" id="vn-vet">
+      <div class="logo">VETTED</div><div class="logo-sub">vet experience</div>
+      <div class="sc">
+        <div style="background:#FBF4E7;border:1px solid #C8A96E;border-radius:16px;padding:20px;margin-bottom:14px;margin-top:10px;text-align:center;">
+          <div style="width:56px;height:56px;border-radius:50%;background:#F0E8D8;border:2px solid #C8A96E;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:18px;color:#C8A96E;margin:0 auto 12px;">JC</div>
+          <p style="font-family:Georgia,serif;font-size:17px;color:#3A2E22;margin-bottom:6px;">Sarah requested your review.</p>
+          <p style="font-size:12px;color:#7A6040;font-family:sans-serif;line-height:1.6;margin-bottom:14px;">Privately review candidates she's interested in — your feedback goes only to her.</p>
+          <div style="height:0.5px;background:#E8DFD0;margin:12px 0;"></div>
+          <div style="display:flex;justify-content:space-around;text-align:center;">
+            <div><p style="font-family:Georgia,serif;font-size:18px;color:#C8A96E;">30 min</p><p style="font-size:10px;color:#A8947A;font-family:sans-serif;">per month max</p></div>
+            <div style="width:0.5px;background:#E8DFD0;"></div>
+            <div><p style="font-family:Georgia,serif;font-size:18px;color:#C8A96E;">$25–50</p><p style="font-size:10px;color:#A8947A;font-family:sans-serif;">per review</p></div>
+            <div style="width:0.5px;background:#E8DFD0;"></div>
+            <div><p style="font-family:Georgia,serif;font-size:18px;color:#C8A96E;">Private</p><p style="font-size:10px;color:#A8947A;font-family:sans-serif;">your notes</p></div>
+          </div>
+        </div>
+        <label class="lbl">GIFT PREFERENCE</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">
+          <div style="border:1px solid #C8A96E;background:#FBF4E7;border-radius:10px;padding:10px;text-align:center;cursor:pointer;">
+          <div style="border:1px solid #E0D4C0;background:#FDF9F4;border-radius:10px;padding:10px;text-align:center;cursor:pointer;">
+          <div style="border:1px solid #E0D4C0;background:#FDF9F4;border-radius:10px;padding:10px;text-align:center;cursor:pointer;">
+        <div style="flex:1;"></div>
+        <button class="btn-g" onclick="goV('vn-review')">Join — show me my first review</button>
+      </div>
+    </div>
+    <div class="screen" id="vn-review">
+      <div class="logo">VETTED</div><div class="logo-sub">reviewing for Sarah</div>
+      <div class="sc" style="overflow-y:auto;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;margin-top:10px;">
+          <div style="width:52px;height:52px;border-radius:50%;background:#F0E8D8;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:18px;color:#C8A96E;">MR</div>
+          <div><p style="font-family:Georgia,serif;font-size:17px;color:#3A2E22;">Marcus, 45</p><p style="font-size:11px;color:#9A8870;font-family:sans-serif;">Austin, TX · Architect · ID Verified</p></div>
+        </div>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:12px;padding:12px;margin-bottom:12px;"><p style="font-size:10px;letter-spacing:0.08em;color:#A8947A;font-family:sans-serif;margin-bottom:6px;">SARAH'S NOTE TO YOU</p><p style="font-size:12px;color:#5C4D3A;font-family:Georgia,serif;line-height:1.6;font-style:italic;">"Jess — I really liked his profile. Be honest with me. You know what I need."</p></div>
+        <div class="q-card"><p class="q-num">Q1 OF 3 — VETTED STANDARD</p><p class="q-text">What are you genuinely looking for right now?</p><textarea class="q-ta" rows="2">I'm at a place where I'm genuinely ready. I've done the work after my divorce.</textarea></div>
+        <div class="q-card"><p class="q-num">Q2 OF 3 — VETTED STANDARD</p><p class="q-text">How do the people closest to you describe you in a relationship?</p><textarea class="q-ta" rows="2">My sister says I'm loyal to a fault. My friends say I always show up.</textarea></div>
+        <div class="q-card" style="border-color:#C8A96E;"><p class="q-num">Q3 OF 3 — SARAH'S QUESTION</p><p class="q-text">What does a typical weekend look like for you?</p><textarea class="q-ta" rows="2">Usually outdoors — hiking or cooking. Ideal: farmers market, long lunch, a drive somewhere new.</textarea></div>
+        <label class="lbl" style="margin-top:8px;">YOUR RATING</label>
+        <div style="display:flex;gap:5px;margin-bottom:14px;" id="vrev-stars"><span class="star on" onclick="rateS(1)">★</span><span class="star on" onclick="rateS(2)">★</span><span class="star on" onclick="rateS(3)">★</span><span class="star on" onclick="rateS(4)">★</span><span class="star" onclick="rateS(5)">★</span></div>
+        <label class="lbl">YOUR VERDICT</label>
+        <div style="display:flex;gap:10px;margin-bottom:14px;"><div class="thumb-btn up sel" id="vt-up" onclick="setTh('up')">↑</div><div class="thumb-btn dn" id="vt-dn" onclick="setTh('dn')">↓</div><p style="font-size:12px;color:#3B6D11;font-family:sans-serif;align-self:center;margin-left:4px;" id="vt-lbl">Approve</p></div>
+        <label class="lbl">PRIVATE NOTE FOR SARAH</label>
+        <textarea class="ta" rows="3">He seems genuinely grounded. His values around family really stood out — I think you'd have a lot to talk about. Go for it.</textarea>
+        <label class="lbl" style="margin-top:12px;">OPTIONAL FREE QUESTION</label>
+        <textarea class="ta" rows="2" placeholder="Anything else you'd like to ask Marcus? (optional)"></textarea>
+        <div style="flex:1;min-height:16px;"></div>
+        <button class="btn-g" style="margin-top:14px;" onclick="goV('vn-final')">Submit my review</button>
+      </div>
+    </div>
+    <div class="screen" id="vn-final">
+      <div class="sc" style="justify-content:center;align-items:center;text-align:center;padding-top:56px;">
+        <div style="width:76px;height:76px;border-radius:50%;border:2px solid #C8A96E;background:#FBF4E7;display:flex;align-items:center;justify-content:center;font-size:30px;color:#C8A96E;margin:0 auto 22px;">✓</div>
+        <p style="font-family:Georgia,serif;font-size:22px;color:#3A2E22;margin-bottom:8px;line-height:1.4;">Review submitted.</p>
+        <div style="width:40px;height:1px;background:#C8A96E;margin:0 auto 16px;"></div>
+        <div style="background:#FBF4E7;border:1px solid #E0D4C0;border-radius:14px;padding:16px;width:100%;text-align:left;margin-bottom:20px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;">CANDIDATE REVIEWED</p><p style="font-size:12px;color:#3A2E22;font-family:sans-serif;">Marcus, 45</p></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#A8947A;font-family:sans-serif;letter-spacing:0.06em;">YOUR VERDICT</p><p style="font-size:12px;color:#3B6D11;font-family:sans-serif;">Approved</p></div>
+          
+
+<!-- ============================================================ CREDITS ============================================================ -->
+
+
+<script>
+function showSection(name) {
+  const sections = ['landing','registration','media','pricing','matching','vetting','credits'];
+  sections.forEach(s => {
+    const el = document.getElementById('sec-' + s);
+    if (el) el.style.display = (s === name) ? '' : 'none';
+  });
+  document.querySelectorAll('.nav-pill').forEach((btn, i) => {
+    btn.classList.toggle('active', sections[i] === name);
+  });
+}
+
+function goL(id) { document.querySelectorAll('#sec-landing .screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function goR(id) {
+  document.querySelectorAll('#sec-registration .screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const steps = ['reg-1','reg-2','reg-3','reg-4','reg-5','reg-6','reg-7'];
+  const n = steps.indexOf(id) + 1;
+  const pbId = 'rpb' + id.split('-')[1];
+  const pb = document.getElementById(pbId);
+  if (pb && n > 0) { pb.innerHTML=''; for(let i=1;i<=7;i++){const d=document.createElement('div');d.className='pd'+(i<=n?' on':'');pb.appendChild(d);} }
+}
+function goM(id) {
+  document.querySelectorAll('#sec-media .screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const steps = ['med-1','med-2','med-3','med-4'];
+  const n = steps.indexOf(id) + 1;
+  const num = id.split('-')[1];
+  const pb = document.getElementById('mpb' + num);
+  if (pb && n > 0) { pb.innerHTML=''; for(let i=1;i<=4;i++){const d=document.createElement('div');d.className='pd'+(i<=n?' on':'');pb.appendChild(d);} }
+}
+function goP(id) { document.querySelectorAll('#sec-pricing .screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function goMat(id) {
+  document.querySelectorAll('#sec-matching .screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const pb = document.getElementById('matpb');
+  if (pb && id !== 'mat-0') { pb.innerHTML=''; const steps=['mat-cand','mat-sent','mat-summary']; const n=steps.indexOf(id)+1; for(let i=1;i<=3;i++){const d=document.createElement('div');d.className='pd'+(i<=n?' on':'');pb.appendChild(d);} }
+}
+function goV(id) {
+  document.querySelectorAll('#sec-vetting .screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const steps = {'vn-1':1,'vn-1b':2,'vn-2':3,'vn-2b':4,'vn-3':5,'vn-sent':6};
+  const n = steps[id];
+  const pb = document.getElementById('vnpb' + id.replace('vn-',''));
+  if (pb && n) { pb.innerHTML=''; for(let i=1;i<=6;i++){const d=document.createElement('div');d.className='pd'+(i<=n?' on':'');pb.appendChild(d);} }
+}
+
+function soloChip(el) { el.closest('.chip-grid').querySelectorAll('.chip').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); }
+function soloSm(el) { el.parentElement.querySelectorAll('.chip-sm').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); }
+function toggleSw(id) { document.getElementById(id).classList.toggle('on'); }
+function selPrompt(id) { ['mp1','mp2','mp3'].forEach(p=>{const el=document.getElementById(p);if(el)el.classList.remove('sel');}); document.getElementById(id).classList.add('sel'); }
+function selWQ(id) { ['wq1','wq2','wq3'].forEach(p=>{const el=document.getElementById(p);if(el){el.style.borderColor='#E0D4C0';el.style.background='#FDF9F4';el.querySelector('p').style.color='#5C4D3A';}}); const s=document.getElementById(id);s.style.borderColor='#C8A96E';s.style.background='#FBF4E7';s.querySelector('p').style.color='#7A5C20'; }
+function selCQ(id) { ['cq-a','cq-b','cq-c'].forEach(c=>{const el=document.getElementById(c);if(el){el.style.borderColor='#E0D4C0';el.style.background='#FDF9F4';el.querySelector('p').style.color='#5C4D3A';}}); const s=document.getElementById(id);s.style.borderColor='#C8A96E';s.style.background='#FBF4E7';s.querySelector('p').style.color='#7A5C20'; }
+function updateRangeSummary() { const mn=document.getElementById('rmin-out').textContent; const mx=document.getElementById('rmax-out').textContent; const el=document.getElementById('range-summary'); if(el)el.textContent=mn+' – '+mx; }
+function setFmt(f) { document.getElementById('fmtv').classList.toggle('sel',f==='video'); document.getElementById('fmta').classList.toggle('sel',f==='voice'); }
+
+let mRec=false,mTimer=null,mSecs=0,mWave=null;
+function toggleRec(){
+  const area=document.getElementById('mrec');
+  const icon=document.getElementById('mrec-icon');
+  const dot=document.getElementById('mrec-dot');
+  const title=document.getElementById('mrec-title');
+  const sub=document.getElementById('mrec-sub');
+  const timer=document.getElementById('mrec-timer');
+  const wave=document.getElementById('mrec-wave');
+  if(!mRec){
+    mRec=true;mSecs=0;
+    area.classList.add('recording');icon.classList.add('recording');dot.classList.add('recording');
+    title.textContent='Recording... tap to stop';sub.style.display='none';timer.style.display='block';wave.style.display='flex';
+    mTimer=setInterval(()=>{mSecs++;const m=Math.floor(mSecs/60);const s=mSecs%60;timer.textContent=m+':'+(s<10?'0':'')+s;if(mSecs>=60)toggleRec();},1000);
+    mWave=setInterval(()=>{document.querySelectorAll('#mrec-wave .wave-bar').forEach(b=>{b.style.height=(6+Math.floor(Math.random()*22))+'px';});},200);
+  } else {
+    mRec=false;clearInterval(mTimer);clearInterval(mWave);
+    area.classList.remove('recording');area.classList.add('done');icon.classList.remove('recording');icon.classList.add('done');dot.classList.remove('recording');dot.classList.add('done');
+    title.textContent='Recording saved';sub.style.display='block';sub.textContent='Tap to re-record';wave.style.display='none';
+    const m=Math.floor(mSecs/60);const s=mSecs%60;timer.textContent=m+':'+(s<10?'0':'')+s;timer.style.color='#3B6D11';
+  }
+}
+function rateS(n){document.querySelectorAll('#vrev-stars .star').forEach((s,i)=>{s.classList.toggle('on',i<n);});}
+function setTh(dir){const up=document.getElementById('vt-up');const dn=document.getElementById('vt-dn');const lbl=document.getElementById('vt-lbl');if(dir==='up'){up.classList.add('sel');dn.classList.remove('sel');lbl.textContent='Approve';lbl.style.color='#3B6D11';}else{dn.classList.add('sel');up.classList.remove('sel');lbl.textContent='Pass';lbl.style.color='#A32D2D';}}
+</script>
+</body>
+</html>
