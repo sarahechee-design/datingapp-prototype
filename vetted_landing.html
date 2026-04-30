@@ -18,14 +18,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:fl
 .nav-cta:hover{background:var(--gold-dark);}
 
 /* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 48px 80px;position:relative;overflow:hidden;}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 48px 80px;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(200,169,110,0.08) 0%,transparent 70%);pointer-events:none;}
 .hero-eyebrow{font-size:11px;letter-spacing:0.2em;color:var(--gold);margin-bottom:28px;opacity:0;animation:fadeUp 0.8s 0.2s forwards;}
-.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6vw,80px);font-weight:300;color:var(--ink);line-height:1.1;margin-bottom:24px;max-width:800px;opacity:0;animation:fadeUp 0.8s 0.4s forwards;}
+.hero-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,6vw,80px);font-weight:300;color:var(--ink);line-height:1.1;margin-bottom:24px;max-width:720px;opacity:0;animation:fadeUp 0.8s 0.4s forwards;}
 .hero-h1 em{font-style:italic;color:var(--gold);}
-.hero-rule{width:48px;height:1px;background:var(--gold);margin:0 auto 28px;opacity:0;animation:fadeUp 0.8s 0.5s forwards;}
-.hero-sub{font-size:16px;color:var(--ink-mid);line-height:1.8;max-width:520px;margin:0 auto 48px;font-weight:300;opacity:0;animation:fadeUp 0.8s 0.6s forwards;}
-.hero-actions{display:flex;flex-direction:column;align-items:center;gap:12px;opacity:0;animation:fadeUp 0.8s 0.8s forwards;}
+.hero-rule{width:48px;height:1px;background:var(--gold);margin:0 0 28px;opacity:0;animation:fadeUp 0.8s 0.5s forwards;}
+.hero-sub{font-size:16px;color:var(--ink-mid);line-height:1.8;max-width:520px;margin:0 0 48px;font-weight:300;opacity:0;animation:fadeUp 0.8s 0.6s forwards;}
+.hero-actions{display:flex;flex-direction:column;align-items:flex-start;gap:12px;opacity:0;animation:fadeUp 0.8s 0.8s forwards;}
 .btn-primary{padding:18px 48px;background:var(--gold);border:none;border-radius:4px;font-size:14px;color:var(--cream);font-family:'DM Sans',sans-serif;letter-spacing:0.1em;cursor:pointer;transition:all 0.2s;}
 .btn-primary:hover{background:var(--gold-dark);transform:translateY(-1px);}
 .hero-note{font-size:11px;color:var(--ink-light);letter-spacing:0.08em;}
@@ -116,23 +116,50 @@ footer{padding:32px 48px;border-top:0.5px solid rgba(200,169,110,0.2);display:fl
   .waitlist-form{flex-direction:column;}
   footer{padding:24px;}
 }
+
+.vs-section{padding:100px 48px;background:var(--ink);}
+.vs-inner{max-width:1000px;margin:0 auto;}
+.vs-header{text-align:center;margin-bottom:60px;}
+.vs-h{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4vw,48px);font-weight:300;color:var(--white);line-height:1.2;margin-bottom:12px;}
+.vs-h em{font-style:italic;color:var(--gold);}
+.vs-sub{font-size:15px;color:rgba(255,255,255,0.5);font-weight:300;line-height:1.7;max-width:520px;margin:0 auto;}
+.vs-table{width:100%;border-collapse:collapse;}
+.vs-table th{padding:14px 20px;font-size:10px;letter-spacing:0.14em;font-family:'DM Sans',sans-serif;font-weight:500;text-align:left;}
+.vs-table th:first-child{color:rgba(255,255,255,0.4);width:35%;}
+.vs-table th.vetted-col{color:var(--gold);text-align:center;}
+.vs-table th.trad-col{color:rgba(255,255,255,0.3);text-align:center;}
+.vs-table td{padding:16px 20px;border-top:0.5px solid rgba(255,255,255,0.06);font-size:13px;font-weight:300;vertical-align:top;line-height:1.6;}
+.vs-table td:first-child{color:rgba(255,255,255,0.5);font-size:12px;letter-spacing:0.04em;}
+.vs-table td.vetted-val{color:var(--white);text-align:center;}
+.vs-table td.trad-val{color:rgba(255,255,255,0.3);text-align:center;}
+.vs-check{display:inline-block;width:22px;height:22px;border-radius:50%;background:rgba(200,169,110,0.3);border:1px solid var(--gold);color:var(--gold);font-size:12px;line-height:22px;text-align:center;}
+.vs-x{display:inline-block;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.2);font-size:12px;line-height:22px;text-align:center;}
+.vs-price-vetted{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);}
+.vs-price-trad{font-family:'Cormorant Garamond',serif;font-size:22px;color:rgba(255,255,255,0.25);text-decoration:line-through;}
+.vs-vetted-col-head{background:rgba(200,169,110,0.12);border-radius:4px 4px 0 0;}
+.vs-vetted-cell{background:rgba(200,169,110,0.06);}
+
+.compare-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid rgba(200,169,110,0.15);}
+.compare-row:last-child{border-bottom:none;}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo">VETTED</div>
+  <div style="display:flex;flex-direction:column;"><div class="nav-logo">VETTED</div><div style="font-size:10px;letter-spacing:0.14em;color:var(--ink-light);font-family:'DM Sans',sans-serif;">FIND YOUR PERSON. WITH YOUR PEOPLE.</div></div>
   <button class="nav-cta" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Request an invite</button>
 </nav>
 
 <section class="hero">
+  <div style="max-width:720px;">
   <p class="hero-eyebrow">A NEW KIND OF DATING MEMBERSHIP</p>
   <h1 class="hero-h1">Your people.<br><em>Your forever person.</em></h1>
   <div class="hero-rule"></div>
   <p class="hero-sub">Vetted is the only membership where your closest people interview your matches — before you ever meet. Both sides, always.</p>
   <div class="hero-actions">
     <button class="btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">REQUEST AN INVITATION</button>
-    <p class="hero-note">Membership opens in curated batches · Austin, TX · Launching 2026</p>
+    <p class="hero-note">Membership opens in curated batches · Texas · Launching 2026</p>
+  </div>
   </div>
 </section>
 
@@ -181,10 +208,85 @@ footer{padding:32px 48px;border-top:0.5px solid rgba(200,169,110,0.2);display:fl
     <p class="eyebrow" style="text-align:center;">HOW IT WORKS</p>
     <h2 class="section-h2" style="text-align:center;margin:0 auto 8px;">Mutual vetting.<br><em>Both sides. Always.</em></h2>
     <div class="steps">
-      <div class="step"><div class="step-num">01</div><p class="step-title">Join &amp; nominate your 2 Vetters</p><p class="step-body">Choose a sister, best friend, or colleague — trusted people who interview candidates privately on your behalf.</p></div>
+      <div class="step"><div class="step-num">01</div><p class="step-title">Join &amp; nominate your Vetters</p><p class="step-body">Choose a sibling, best friend, or colleague — trusted people who interview candidates privately on your behalf.</p></div>
       <div class="step"><div class="step-num">02</div><p class="step-title">Send a match to your Vetters</p><p class="step-body">When someone interests you, your Vetters receive their profile and ask them your custom questions privately.</p></div>
       <div class="step"><div class="step-num">03</div><p class="step-title">Their Vetters interview you</p><p class="step-body">Symmetrical by design — their people interview you at the same time. Both sides come reviewed.</p></div>
       <div class="step"><div class="step-num">04</div><p class="step-title">You get the summary</p><p class="step-body">Private ratings, honest notes, and a verdict from each Vetter. Then you decide whether to meet.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="vs-section">
+  <div class="vs-inner">
+    <div class="vs-header">
+      <p style="font-size:10px;letter-spacing:0.2em;color:var(--gold);font-family:'DM Sans',sans-serif;margin-bottom:14px;">WHY VETTED</p>
+      <h2 class="vs-h">Everything traditional matchmakers<br>offer — and <em>so much more.</em></h2>
+      <p class="vs-sub">Traditional matchmakers charge $15,000–$50,000 and make decisions behind closed doors. Vetted puts you and your people in control — at a fraction of the cost.</p>
+    </div>
+    <table class="vs-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="vetted-col vs-vetted-col-head">VETTED — $5,000</th>
+          <th class="trad-col">TRADITIONAL MATCHMAKER</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cost</td>
+          <td class="vetted-val vs-vetted-cell"><span class="vs-price-vetted">$5,000</span><br><span style="font-size:11px;color:rgba(255,255,255,0.4);">6-month membership</span></td>
+          <td class="trad-val"><span class="vs-price-trad">$15k–$50k</span><br><span style="font-size:11px;color:rgba(255,255,255,0.2);">per engagement</span></td>
+        </tr>
+        <tr>
+          <td>Who makes decisions</td>
+          <td class="vetted-val vs-vetted-cell" style="color:var(--white);">You — with your Circle</td>
+          <td class="trad-val">A stranger you hired</td>
+        </tr>
+        <tr>
+          <td>People who review matches</td>
+          <td class="vetted-val vs-vetted-cell" style="color:var(--white);">Your closest friends &amp; family — people who've known you for years</td>
+          <td class="trad-val">A paid professional who just met you</td>
+        </tr>
+        <tr>
+          <td>Transparency</td>
+          <td class="vetted-val vs-vetted-cell" style="color:var(--white);">Full visibility — you see every match, every review, every decision</td>
+          <td class="trad-val">Opaque — matchmaker decides behind closed doors</td>
+        </tr>
+        <tr>
+          <td>You stay in control</td>
+          <td class="vetted-val vs-vetted-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val"><span class="vs-x">✗</span></td>
+        </tr>
+        <tr>
+          <td>Community involved</td>
+          <td class="vetted-val vs-vetted-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val"><span class="vs-x">✗</span></td>
+        </tr>
+        <tr>
+          <td>Both sides reviewed</td>
+          <td class="vetted-val vs-vetted-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val"><span class="vs-x">✗</span></td>
+        </tr>
+        <tr>
+          <td>ID-verified members</td>
+          <td class="vetted-val vs-vetted-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val" style="color:rgba(255,255,255,0.3);font-size:12px;">Varies</td>
+        </tr>
+        <tr>
+          <td>No auto-renewal</td>
+          <td class="vetted-val vs-vetted-cell"><span class="vs-check">✓</span></td>
+          <td class="trad-val"><span class="vs-x">✗</span></td>
+        </tr>
+        <tr>
+          <td>Candidates held accountable</td>
+          <td class="vetted-val vs-vetted-cell" style="color:var(--white);">Reviewed by real people in your life — they know they're being evaluated by your community</td>
+          <td class="trad-val">Screened by a professional, not someone who knows you</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="text-align:center;margin-top:48px;">
+      <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px;font-weight:300;">Ready to find your person — with your people?</p>
+      <button style="padding:16px 48px;background:var(--gold);border:none;border-radius:2px;font-size:12px;color:var(--white);font-family:'DM Sans',sans-serif;letter-spacing:0.12em;cursor:pointer;" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">REQUEST AN INVITATION</button>
     </div>
   </div>
 </section>
@@ -211,6 +313,21 @@ footer{padding:32px 48px;border-top:0.5px solid rgba(200,169,110,0.2);display:fl
         <li><span class="price-dot"></span>ID-verified members only — everyone is identity checked</li>
         <li><span class="price-dot"></span>6 full months, then renew on your terms</li>
       </ul>
+
+      <div style="border-top:0.5px solid rgba(200,169,110,0.2);padding-top:20px;margin-bottom:32px;">
+        <div class="compare-row">
+          <span style="font-size:13px;color:var(--ink-mid);font-family:'DM Sans',sans-serif;">Traditional matchmakers</span>
+          <span style="font-size:13px;color:var(--ink-light);font-family:'DM Sans',sans-serif;text-decoration:line-through;">$15,000–$50,000</span>
+        </div>
+        <div class="compare-row">
+          <span style="font-size:13px;color:var(--ink-mid);font-family:'DM Sans',sans-serif;">Vetted — community matching</span>
+          <span style="font-size:15px;color:var(--gold);font-family:'Cormorant Garamond',serif;">$5,000 / 6 months</span>
+        </div>
+        <div class="compare-row">
+          <span style="font-size:13px;color:var(--ink-mid);font-family:'DM Sans',sans-serif;">Hinge, Bumble, Tinder</span>
+          <span style="font-size:13px;color:var(--ink-light);font-family:'DM Sans',sans-serif;">Free — and it shows</span>
+        </div>
+      </div>
       <button class="btn-primary" style="width:100%;" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">REQUEST AN INVITATION</button>
     </div>
   </div>
@@ -233,7 +350,7 @@ footer{padding:32px 48px;border-top:0.5px solid rgba(200,169,110,0.2);display:fl
 <section class="feedback-section" id="feedback">
   <div class="section-inner" style="text-align:center;">
     <h3 class="feedback-h">What's your reaction to Vetted?</h3>
-    <p class="feedback-sub">Your honest feedback shapes the product. Takes 30 seconds.</p>
+    <p class="feedback-sub"></p>
     <div style="margin-top:32px;text-align:center;">
       <p style="font-size:13px;color:var(--ink-light);margin-bottom:24px;font-weight:300;line-height:1.7;">Your reactions, honest thoughts, and dating market frustrations all help shape what Vetted becomes.<br>Takes less than 2 minutes.</p>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLScgvB4py4l37osxy--u7CEc2AMRIuMYX8fPKY5MlSW8Yky4EA/viewform?usp=publish-editor"
