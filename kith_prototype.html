@@ -8,24 +8,16 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #EEF4F8; font-family:'Playfair Display',serif; min-height: 100vh; }
-
-  /* NAV */
   .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; background: #F6F9FB; border-bottom: 1px solid #C8DCE8; position: sticky; top: 0; z-index: 100; }
   .top-nav-logo { font-family:'Playfair Display',serif; font-size: 14px; letter-spacing: 0.22em; color: #4A7394; }
   .top-nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
   .nav-pill { padding: 7px 14px; border-radius: 20px; font-size: 11px; font-family:'Jost',sans-serif; cursor: pointer; border: 1px solid #CDDCE8; background: #F6F9FB; color: #2D4050; transition: all 0.15s; white-space: nowrap; }
   .nav-pill:hover, .nav-pill.active { background: #4A7394; border-color: #4A7394; color: #F6F9FB; }
-
-  /* LAYOUT */
   .prototype-wrap { display: flex; justify-content: center; padding: 40px 20px 60px; gap: 40px; flex-wrap: wrap; }
   .section-label { font-size: 11px; letter-spacing: 0.14em; color: #7A97A8; font-family:'Jost',sans-serif; text-align: center; margin-bottom: 12px; }
-
-  /* PHONE FRAME */
   .phone { width: 375px; background: #F6F9FB; border-radius: 40px; border: 2px solid #4A7394; overflow: hidden; display: flex; flex-direction: column; flex-shrink: 0; }
   .screen { display: none; flex-direction: column; min-height: 720px; }
   .screen.active { display: flex; }
-
-  /* SHARED COMPONENTS */
   .logo { font-family:'Playfair Display',serif; font-size: 12px; letter-spacing: 0.22em; color: #4A7394; text-align: center; padding: 44px 0 4px; }
   .logo-sub { font-size: 10px; letter-spacing: 0.1em; color: #7A97A8; text-align: center; }
   .sc { flex: 1; padding: 24px 24px 28px; display: flex; flex-direction: column; }
@@ -124,15 +116,13 @@
   .compare-row:last-child { border-bottom: none; }
   .step-num { width: 32px; height: 32px; border-radius: 50%; background: #EEF4F8; border: 1px solid #4A7394; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #4A7394; font-family:'Playfair Display',serif; flex-shrink: 0; }
   input[type=range] { width: 100%; accent-color: #4A7394; }
-
-.kith-note-badge{display:inline-block;font-size:9px;letter-spacing:0.14em;color:#4A7394;font-family:'Jost',sans-serif;border:1px solid #4A7394;padding:3px 10px;border-radius:2px;margin-bottom:8px;}
-.kith-note-box{background:#EEF4F8;border:1px solid #4A7394;border-radius:12px;padding:16px;margin-bottom:14px;}
-.kith-note-text{font-family:'Playfair Display',serif;font-size:13px;color:#1A2530;line-height:1.7;font-style:italic;}
-.kith-note-author{font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;margin-top:8px;letter-spacing:0.06em;}
+  .kith-note-badge{display:inline-block;font-size:9px;letter-spacing:0.14em;color:#4A7394;font-family:'Jost',sans-serif;border:1px solid #4A7394;padding:3px 10px;border-radius:2px;margin-bottom:8px;}
+  .kith-note-box{background:#EEF4F8;border:1px solid #4A7394;border-radius:12px;padding:16px;margin-bottom:14px;}
+  .kith-note-text{font-family:'Playfair Display',serif;font-size:13px;color:#1A2530;line-height:1.7;font-style:italic;}
+  .kith-note-author{font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;margin-top:8px;letter-spacing:0.06em;}
 </style>
 </head>
 <body>
-
 <nav class="top-nav">
   <div class="top-nav-logo" style="font-style:italic;letter-spacing:0.04em;">kith</div>
   <div class="top-nav-links">
@@ -142,48 +132,46 @@
     <button class="nav-pill" onclick="showSection('pricing')">Pricing</button>
     <button class="nav-pill" onclick="showSection('matching')">Matching</button>
     <button class="nav-pill" onclick="showSection('vetting')">The Invitation</button>
-    
   </div>
 </nav>
-
 <div class="prototype-wrap">
-
 <!-- ============================================================ LANDING ============================================================ -->
 <div id="sec-landing">
   <p class="section-label">LANDING PAGE</p>
   <div class="phone">
-
     <div class="screen active" id="land-0">
       <div style="background:#F6F9FB;flex:1;display:flex;flex-direction:column;">
         <div style="padding:52px 28px 40px;text-align:center;border-bottom:0.5px solid #C8DCE8;flex:1;display:flex;flex-direction:column;justify-content:center;">
           <p style="font-family:'Playfair Display',serif;font-size:13px;letter-spacing:0.22em;color:#4A7394;margin-bottom:20px;">KITH</p>
           <div style="width:40px;height:1px;background:#4A7394;margin:0 auto 20px;"></div>
+          <!-- FIXED: updated tagline -->
           <p style="font-family:'Playfair Display',serif;font-size:26px;color:#1A2530;line-height:1.3;margin-bottom:14px;font-weight:400;">When you meet on Kith, you've already met each other's people.</p>
-          <p style="font-size:12px;color:#3D6070;line-height:1.75;font-family:'Jost',sans-serif;margin-bottom:32px;">The only dating membership where both sides come vouched for — by the people who know them best.</p>
+          <p style="font-size:12px;color:#3D6070;line-height:1.75;font-family:'Jost',sans-serif;margin-bottom:32px;">The only dating membership for singles ages 35–60 where both sides come vouched for — by the people who know them best.</p>
           <button class="btn-g" style="margin-bottom:10px;" onclick="goL('land-how')">How it works</button>
           <button class="btn-ghost" style="margin-top:0;" onclick="goL('land-pricing')">See membership — $5,000</button>
         </div>
-        <p style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;text-align:center;padding:14px;letter-spacing:0.06em;">Launching 2026 · Texas</p>
+        <!-- FIXED: Launching 2027 -->
+        <p style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;text-align:center;padding:14px;letter-spacing:0.06em;">Launching 2027 · Texas</p>
       </div>
     </div>
-
     <div class="screen" id="land-how">
       <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">find your person.</div>
       <div class="sc" style="overflow-y:auto;">
-        <p class="sh" style="margin-top:10px;">Your circle. Their circle.<br><em>Together.</em></p>
+        <!-- FIXED: "Your community. Their community." -->
+        <p class="sh" style="margin-top:10px;">Your community. Their community.<br><em>Together.</em></p>
         <p class="ss">Every match has been reviewed by two people on each side — before anyone meets anyone.</p>
-        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">1</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Reserve your spot in the Kith community</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">Kith opens in curated batches. Request your invite to get started.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">1</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Reserve your spot in the Kith community</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">Kith opens in curated batches for singles ages 35–60. Request your invite to get started.</p></div></div>
         <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">2</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Complete your profile</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">Share who you are, what you're looking for, and a short video intro.</p></div></div>
-        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">3</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Browse and send matches to your Kith and kin</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">When someone catches your eye, send their profile to your Kith and kin for review.</p></div></div>
-        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">4</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">It goes both ways</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">Their Kith and kin review you at the same time. Both sides, always.</p></div></div>
-        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">5</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Both summaries come in</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">You each receive private feedback from your people — then decide together.</p></div></div>
-        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">6</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Automated gratitude</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">Your Kith and kin automatically receive a curated gift after their first review.</p></div></div>
+        <!-- FIXED: "your Community" -->
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">3</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Browse and send matches to your Community</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">When someone catches your eye, send their profile to your Community members for review.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">4</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">It goes both ways</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">Their Community reviews you at the same time. Both sides, always.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">5</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Both reports come in</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">You each receive a private report from your Community — then decide together.</p></div></div>
+        <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;"><div class="step-num">6</div><div><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:3px;">Automated gratitude</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;line-height:1.6;">Your Community members automatically receive a curated gift after their first review.</p></div></div>
         <div style="flex:1;"></div>
         <button class="btn-g" onclick="goL('land-pricing')">See membership — $5,000</button>
         <button class="btn-ghost" onclick="goL('land-0')">← Back</button>
       </div>
     </div>
-
     <div class="screen" id="land-pricing">
       <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">membership</div>
       <div class="sc">
@@ -191,13 +179,16 @@
           <p style="font-size:10px;letter-spacing:0.14em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:6px;">6-MONTH MEMBERSHIP</p>
           <p style="font-family:'Playfair Display',serif;font-size:52px;color:#1A2530;line-height:1;margin-bottom:4px;">$5,000</p>
           <p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;">one-time · no auto-renewal · no hidden fees</p>
+          <!-- FIXED: $500 deposit -->
+          <p style="font-size:11px;color:#4A7394;font-family:'Playfair Display',serif;font-style:italic;margin-top:6px;">Begins with a $500 deposit · applied to your membership</p>
         </div>
         <div style="background:#EEF4F8;border:1px solid #4A7394;border-radius:16px;padding:14px;margin-bottom:12px;"><p style="font-family:'Playfair Display',serif;font-size:13px;color:#1A2530;line-height:1.65;text-align:center;font-style:italic;">"Stop wondering what your people think. Now they're part of the search."</p></div>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:16px;padding:16px;margin-bottom:12px;">
           <p style="font-size:10px;letter-spacing:0.12em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:12px;">WHAT'S INCLUDED</p>
           <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Profile-based matching within the Kith community</p></div>
-          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Mutual review — your Kith and kin review them, theirs review you</p></div>
-          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Curated surprise gift for your Kith and kin crew upon first review</p></div>
+          <!-- FIXED: "Community members" -->
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Mutual review — your Community members review them, theirs review you</p></div>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Curated surprise gift for your Community members upon first review</p></div>
           <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">ID-verified members only</p></div>
           <div class="price-item" style="margin-bottom:0;"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">6 months, then renew on your terms — never automatically</p></div>
         </div>
@@ -211,15 +202,12 @@
         <button class="btn-ghost" onclick="goL('land-how')">← Back</button>
       </div>
     </div>
-
   </div>
 </div>
-
 <!-- ============================================================ REGISTRATION ============================================================ -->
 <div id="sec-registration" style="display:none;">
   <p class="section-label">REGISTRATION</p>
   <div class="phone">
-
     <div class="screen active" id="reg-0">
       <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">registration</div>
       <div class="sc" style="justify-content:center;align-items:center;text-align:center;">
@@ -231,12 +219,12 @@
         <p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;">Takes about 3 minutes</p>
       </div>
     </div>
-
     <div class="screen" id="reg-1">
       <div class="prog" id="rpb1"></div>
       <div class="sc">
         <p class="sh" style="margin-top:16px;">What's your<br>name?</p>
-        <p class="ss">Private — only shared with your Kith and kin.</p>
+        <!-- FIXED: "Community members" -->
+        <p class="ss">Private — only shared with your Community members.</p>
         <label class="lbl">FIRST NAME</label><input class="inp" type="text" placeholder="First name" />
         <label class="lbl">LAST NAME</label><input class="inp" type="text" placeholder="Last name" />
         <label class="lbl">PREFERRED NAME (optional)</label><input class="inp" type="text" placeholder="What you go by, if different" />
@@ -244,7 +232,6 @@
         <button class="btn-g" onclick="goR('reg-2')">Continue</button>
       </div>
     </div>
-
     <div class="screen" id="reg-2">
       <div class="prog" id="rpb2"></div>
       <div class="sc">
@@ -258,7 +245,6 @@
         <div class="fnav"><button class="back-btn" onclick="goR('reg-1')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-3')">Continue</button></div>
       </div>
     </div>
-
     <div class="screen" id="reg-3">
       <div class="prog" id="rpb3"></div>
       <div class="sc">
@@ -272,18 +258,19 @@
         </div>
         <label class="lbl">MAXIMUM AGE</label>
         <div style="margin-bottom:16px;">
-          <div class="range-val" id="rmax-out">55</div>
-          <input type="range" min="25" max="75" value="55" step="1" oninput="document.getElementById('rmax-out').textContent=this.value;updateRangeSummary()" />
+          <!-- FIXED: default max age 60 to match deck/landing -->
+          <div class="range-val" id="rmax-out">60</div>
+          <input type="range" min="25" max="75" value="60" step="1" oninput="document.getElementById('rmax-out').textContent=this.value;updateRangeSummary()" />
           <div style="display:flex;justify-content:space-between;"><span style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;">25</span><span style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;">75</span></div>
         </div>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:10px;padding:12px;text-align:center;">
-          <p style="font-size:12px;color:#3D6070;font-family:'Jost',sans-serif;">Open to matches aged <span id="range-summary" style="color:#4A7394;font-family:'Playfair Display',serif;font-size:14px;">35 – 55</span></p>
+          <!-- FIXED: default summary 35-60 -->
+          <p style="font-size:12px;color:#3D6070;font-family:'Jost',sans-serif;">Open to matches aged <span id="range-summary" style="color:#4A7394;font-family:'Playfair Display',serif;font-size:14px;">35 – 60</span></p>
         </div>
         <div style="flex:1;"></div>
         <div class="fnav"><button class="back-btn" onclick="goR('reg-2')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-4')">Continue</button></div>
       </div>
     </div>
-
     <div class="screen" id="reg-4">
       <div class="prog" id="rpb4"></div>
       <div class="sc">
@@ -302,7 +289,6 @@
         <div class="fnav"><button class="back-btn" onclick="goR('reg-3')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-5')">Continue</button></div>
       </div>
     </div>
-
     <div class="screen" id="reg-5">
       <div class="prog" id="rpb5"></div>
       <div class="sc">
@@ -322,7 +308,6 @@
         <div class="fnav"><button class="back-btn" onclick="goR('reg-4')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-6')">Continue</button></div>
       </div>
     </div>
-
     <div class="screen" id="reg-6">
       <div class="prog" id="rpb6"></div>
       <div class="sc">
@@ -337,7 +322,6 @@
         <div class="fnav"><button class="back-btn" onclick="goR('reg-5')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goR('reg-7')">Continue</button></div>
       </div>
     </div>
-
     <div class="screen" id="reg-7">
       <div class="prog" id="rpb7"></div>
       <div class="sc">
@@ -345,19 +329,20 @@
         <p class="ss">Everything looks good? You can update any of this after going live.</p>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:14px;padding:16px;margin-bottom:14px;">
           <div class="confirm-row"><span class="ck">NAME</span><span class="cv">Sarah Chee, 47</span></div>
-          <div class="confirm-row"><span class="ck">AGE RANGE OPEN TO</span><span class="cv">35 – 55</span></div>
+          <!-- FIXED: age range 35-60 -->
+          <div class="confirm-row"><span class="ck">AGE RANGE OPEN TO</span><span class="cv">35 – 60</span></div>
           <div class="confirm-row"><span class="ck">RELIGION</span><span class="cv">Christian · Very important</span></div>
           <div class="confirm-row"><span class="ck">CHILDREN</span><span class="cv">Yes</span></div>
           <div class="confirm-row"><span class="ck">OPEN TO PARTNER WITH KIDS</span><span class="cv">Yes, open to it</span></div>
           <div class="confirm-row"><span class="ck">INCOME</span><span class="cv">$200,000 – $350,000</span></div>
         </div>
-        <div class="tip-box"><p class="tip-text">Your profile is private. Only members you match with and your Circle will ever see your information.</p></div>
+        <!-- FIXED: "Community members" -->
+        <div class="tip-box"><p class="tip-text">Your profile is private. Only members you match with and your Community members will ever see your information.</p></div>
         <div style="flex:1;"></div>
         <button class="btn-g" onclick="goR('reg-done')">Submit profile</button>
         <button class="btn-ghost" onclick="goR('reg-6')">← Back</button>
       </div>
     </div>
-
     <div class="screen" id="reg-done">
       <div class="sc" style="justify-content:center;align-items:center;text-align:center;padding-top:56px;">
         <div style="width:76px;height:76px;border-radius:50%;border:2px solid #4A7394;background:#EEF4F8;display:flex;align-items:center;justify-content:center;font-size:30px;color:#4A7394;margin:0 auto 22px;">✓</div>
@@ -367,15 +352,12 @@
         <button class="btn-g" style="margin-top:0;" onclick="showSection('media')">Continue to media profile</button>
       </div>
     </div>
-
   </div>
 </div>
-
 <!-- ============================================================ MEDIA PROFILE ============================================================ -->
 <div id="sec-media" style="display:none;">
   <p class="section-label">MEDIA PROFILE</p>
   <div class="phone">
-
     <div class="screen active" id="med-0">
       <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">complete your profile</div>
       <div class="sc" style="justify-content:center;text-align:center;">
@@ -391,7 +373,6 @@
         <button class="btn-g" onclick="goM('med-1')">Let's do it</button>
       </div>
     </div>
-
     <div class="screen" id="med-1">
       <div class="prog" id="mpb1"></div>
       <div class="sc">
@@ -404,15 +385,12 @@
         <div class="fnav"><button class="back-btn" onclick="goM('med-0')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goM('med-2')">Use this prompt</button></div>
       </div>
     </div>
-
     <div class="screen" id="med-2">
       <div class="prog" id="mpb2"></div>
       <div class="sc">
         <p class="sh" style="margin-top:16px;">Record your<br>intro.</p>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:10px;padding:12px;margin-bottom:16px;"><p style="font-size:12px;color:#2D4050;font-family:'Playfair Display',serif;line-height:1.55;font-style:italic;">"Walk me through what a really good Sunday looks like for you."</p></div>
-        <div style="display:flex;gap:10px;margin-bottom:14px;">
-          Video</div>
-        </div>
+        <div style="display:flex;gap:10px;margin-bottom:14px;">Video</div>
         <div class="record-area" id="mrec" onclick="toggleRec()">
           <div class="rec-icon" id="mrec-icon"><div class="rec-dot" id="mrec-dot"></div></div>
           <p style="font-size:14px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:4px;" id="mrec-title">Tap to start recording</p>
@@ -425,7 +403,6 @@
         <div class="fnav"><button class="back-btn" onclick="goM('med-1')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goM('med-3')">Use this recording</button></div>
       </div>
     </div>
-
     <div class="screen" id="med-3">
       <div class="prog" id="mpb3"></div>
       <div class="sc">
@@ -440,18 +417,17 @@
         <div class="fnav"><button class="back-btn" onclick="goM('med-2')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goM('med-4')">Continue</button></div>
       </div>
     </div>
-
     <div class="screen" id="med-4">
       <div class="prog" id="mpb4"></div>
       <div class="sc">
         <p class="sh" style="margin-top:16px;">Your Kith Note<br>&amp; prompt.</p>
-      <label class="lbl" style="margin-top:4px;">YOUR KITH NOTE</label>
-      <div style="background:#EEF4F8;border:1px solid #4A7394;border-radius:12px;padding:14px;margin-bottom:16px;">
-        <p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;line-height:1.6;margin-bottom:10px;">A short personal note — in your own words — that your matches will see when they're considering you. The real you, beyond the profile.</p>
-        <textarea class="ta" rows="4" maxlength="300" placeholder="e.g. I'm looking for someone who values depth over small talk, believes family comes first, and isn't afraid of a real conversation over a long dinner..." id="kith-note-ta" oninput="document.getElementById('kncc').textContent=(300-this.value.length)+' characters remaining'"></textarea>
-        <p style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;text-align:right;margin-top:4px;" id="kncc">300 characters remaining</p>
-      </div>
-        <p class="ss">Optional — but members who complete this get much more meaningful vet feedback.</p>
+        <label class="lbl" style="margin-top:4px;">YOUR KITH NOTE</label>
+        <div style="background:#EEF4F8;border:1px solid #4A7394;border-radius:12px;padding:14px;margin-bottom:16px;">
+          <p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;line-height:1.6;margin-bottom:10px;">A short personal note — in your own words — that your matches will see when they're considering you. The real you, beyond the profile.</p>
+          <textarea class="ta" rows="4" maxlength="300" placeholder="e.g. I'm looking for someone who values depth over small talk, believes family comes first, and isn't afraid of a real conversation over a long dinner..." id="kith-note-ta" oninput="document.getElementById('kncc').textContent=(300-this.value.length)+' characters remaining'"></textarea>
+          <p style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;text-align:right;margin-top:4px;" id="kncc">300 characters remaining</p>
+        </div>
+        <p class="ss">Optional — but members who complete this get much more meaningful community feedback.</p>
         <label class="lbl">CHOOSE A PROMPT</label>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px;">
           <div style="border:1px solid #4A7394;background:#EEF4F8;border-radius:10px;padding:12px;cursor:pointer;" id="wq1" onclick="selWQ('wq1')"><p style="font-size:12px;color:#2D5070;font-family:'Jost',sans-serif;line-height:1.5;">The thing most people don't know about me is...</p></div>
@@ -459,31 +435,32 @@
           <div style="border:1px solid #CDDCE8;background:#F6F9FB;border-radius:10px;padding:12px;cursor:pointer;" id="wq3" onclick="selWQ('wq3')"><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">The kind of relationship I'm really hoping for looks like...</p></div>
         </div>
         <label class="lbl">YOUR RESPONSE</label>
-        <textarea class="ta" rows="4" maxlength="200" placeholder="Write freely — this is just for you and your Circle..." id="wta" oninput="document.getElementById('wcc').textContent=(200-this.value.length)+' characters remaining'"></textarea>
+        <!-- FIXED: "Community" -->
+        <textarea class="ta" rows="4" maxlength="200" placeholder="Write freely — this is just for you and your Community..." id="wta" oninput="document.getElementById('wcc').textContent=(200-this.value.length)+' characters remaining'"></textarea>
         <p style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;text-align:right;margin-top:4px;" id="wcc">200 characters remaining</p>
         <div style="flex:1;"></div>
         <div class="fnav"><button class="back-btn" onclick="goM('med-3')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goM('med-done')">Submit profile</button></div>
       </div>
     </div>
-
     <div class="screen" id="med-done">
       <div class="sc" style="justify-content:center;align-items:center;text-align:center;padding-top:52px;">
         <div style="width:76px;height:76px;border-radius:50%;border:2px solid #4A7394;background:#EEF4F8;display:flex;align-items:center;justify-content:center;font-size:30px;color:#4A7394;margin:0 auto 22px;">✓</div>
         <p style="font-family:'Playfair Display',serif;font-size:22px;color:#1A2530;margin-bottom:8px;line-height:1.4;">Profile complete.</p>
         <div style="width:40px;height:1px;background:#4A7394;margin:0 auto 16px;"></div>
-        <p style="font-size:12px;color:#3D6070;line-height:1.7;font-family:'Jost',sans-serif;max-width:280px;margin-bottom:24px;">One step left — nominate your 2 Circle Members to start receiving matches.</p>
+        <!-- FIXED: "Community Members" -->
+        <p style="font-size:12px;color:#3D6070;line-height:1.7;font-family:'Jost',sans-serif;max-width:280px;margin-bottom:24px;">One step left — nominate your 2 Community Members to start receiving matches.</p>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:14px;padding:16px;width:100%;text-align:left;margin-bottom:20px;">
           <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid #C8DCE8;"><div style="width:20px;height:20px;border-radius:50%;background:#EAF3DE;border:1px solid #639922;display:flex;align-items:center;justify-content:center;font-size:10px;color:#3B6D11;flex-shrink:0;">✓</div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;">Registration complete</p></div>
           <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:0.5px solid #C8DCE8;"><div style="width:20px;height:20px;border-radius:50%;background:#EAF3DE;border:1px solid #639922;display:flex;align-items:center;justify-content:center;font-size:10px;color:#3B6D11;flex-shrink:0;">✓</div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;">Media profile complete</p></div>
-          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;"><div style="width:20px;height:20px;border-radius:50%;background:#EEF4F8;border:1px solid #4A7394;display:flex;align-items:center;justify-content:center;font-size:10px;color:#4A7394;flex-shrink:0;">3</div><p style="font-size:12px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;">Nominate your 2 Circle Members</p></div>
+          <!-- FIXED: "Community Members" -->
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;"><div style="width:20px;height:20px;border-radius:50%;background:#EEF4F8;border:1px solid #4A7394;display:flex;align-items:center;justify-content:center;font-size:10px;color:#4A7394;flex-shrink:0;">3</div><p style="font-size:12px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;">Nominate your 2 Community Members</p></div>
         </div>
-        <button class="btn-g" onclick="showSection('vetting')">Nominate my Circle →</button>
+        <!-- FIXED: "Community" -->
+        <button class="btn-g" onclick="showSection('vetting')">Nominate my Community →</button>
       </div>
     </div>
-
   </div>
 </div>
-
 <!-- ============================================================ PRICING ============================================================ -->
 <div id="sec-pricing" style="display:none;">
   <p class="section-label">PRICING & MEMBERSHIP</p>
@@ -495,13 +472,16 @@
           <p style="font-size:10px;letter-spacing:0.14em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:6px;">6-MONTH MEMBERSHIP</p>
           <p style="font-family:'Playfair Display',serif;font-size:52px;color:#1A2530;line-height:1;margin-bottom:4px;">$5,000</p>
           <p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;">one-time · no auto-renewal · no hidden fees</p>
+          <!-- FIXED: $500 deposit -->
+          <p style="font-size:11px;color:#4A7394;font-family:'Playfair Display',serif;font-style:italic;margin-top:6px;">Begins with a $500 deposit · applied to your membership</p>
         </div>
         <div style="background:#EEF4F8;border:1px solid #4A7394;border-radius:16px;padding:14px;margin-bottom:12px;"><p style="font-family:'Playfair Display',serif;font-size:13px;color:#1A2530;line-height:1.65;text-align:center;font-style:italic;">"Stop wondering what your people think. Now they're part of the search."</p></div>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:16px;padding:16px;margin-bottom:12px;">
           <p style="font-size:10px;letter-spacing:0.12em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:12px;">WHAT'S INCLUDED</p>
           <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Profile-based matching within the Kith community</p></div>
-          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Mutual review — your Kith and kin review them, theirs review you</p></div>
-          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Curated surprise gift for your Kith and kin crew upon first review</p></div>
+          <!-- FIXED: "Community members" -->
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Mutual review — your Community members review them, theirs review you</p></div>
+          <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Curated surprise gift for your Community members upon first review</p></div>
           <div class="price-item"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">ID-verified members only</p></div>
           <div class="price-item" style="margin-bottom:0;"><div class="price-dot"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">6 months, then renew on your terms — never automatically</p></div>
         </div>
@@ -512,21 +492,26 @@
         </div>
         <div style="flex:1;"></div>
         <button class="btn-g" onclick="goP('pr-confirm')">Claim my spot — $5,000</button>
-        <button class="btn-ghost" onclick="goP('pr-credits')">How does the circle gift work?</button>
+        <!-- FIXED: "community gift" -->
+        <button class="btn-ghost" onclick="goP('pr-credits')">How does the community gift work?</button>
       </div>
     </div>
     <div class="screen" id="pr-confirm">
       <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">membership</div>
       <div class="sc">
         <p class="sh" style="margin-top:10px;">Confirm your<br>membership.</p>
-        <p class="ss">6-month cohort begins the day payment is confirmed. No auto-renewal — ever.</p>
+        <!-- FIXED: $500 deposit -->
+        <p class="ss">Begins with a $500 deposit — applied to your $5,000 total. No auto-renewal — ever.</p>
         <div class="card">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">MEMBERSHIP</p><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;">6-month cohort</p></div>
           <div class="divl"></div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">GIFT BUDGET</p><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;">Curated surprise gift for your Kith and kin crew</p></div>
+          <!-- FIXED: "Community members" -->
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">GIFT</p><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;">Curated gift for your Community members</p></div>
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">AUTO-RENEWS</p><p style="font-size:13px;color:#3B6D11;font-family:'Jost',sans-serif;">Never</p></div>
           <div class="divl"></div>
-          <div style="display:flex;justify-content:space-between;"><p style="font-size:14px;color:#1A2530;font-family:'Playfair Display',serif;">Total due today</p><p style="font-size:20px;color:#1A2530;font-family:'Playfair Display',serif;">$5,000</p></div>
+          <!-- FIXED: deposit amount -->
+          <div style="display:flex;justify-content:space-between;"><p style="font-size:14px;color:#1A2530;font-family:'Playfair Display',serif;">Deposit due today</p><p style="font-size:20px;color:#1A2530;font-family:'Playfair Display',serif;">$500</p></div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;">Total membership</p><p style="font-size:13px;color:#7A97A8;font-family:'Jost',sans-serif;">$5,000</p></div>
         </div>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:12px;padding:14px;margin-bottom:14px;">
           <p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;margin-bottom:10px;">PAYMENT</p>
@@ -535,23 +520,22 @@
           <div style="display:flex;gap:8px;"><div style="flex:1;padding:12px 14px;background:#F6F9FB;border:1px solid #CDDCE8;border-radius:10px;font-size:13px;color:#9BBDD0;font-family:'Jost',sans-serif;">MM / YY</div><div style="flex:1;padding:12px 14px;background:#F6F9FB;border:1px solid #CDDCE8;border-radius:10px;font-size:13px;color:#9BBDD0;font-family:'Jost',sans-serif;">CVC</div></div>
         </div>
         <div style="flex:1;"></div>
-        <button class="btn-g" onclick="goP('pr-welcome')">Pay $5,000 & activate</button>
+        <!-- FIXED: $500 deposit -->
+        <button class="btn-g" onclick="goP('pr-welcome')">Pay $500 deposit & reserve spot</button>
         <button class="btn-ghost" onclick="goP('pr-0')">← Back</button>
       </div>
     </div>
     <div class="screen" id="pr-credits">
-      <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">vet circle gift</div>
+      <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">community gift</div>
       <div class="sc">
-        <p class="sh" style="margin-top:10px;">Your Surprise gift<br>circle gift.</p>
+        <!-- FIXED: "community gift" -->
+        <p class="sh" style="margin-top:10px;">Your Community<br>member gift.</p>
         <p class="ss">Included in every membership. Gifts are sent automatically — no action needed from you.</p>
         <div style="background:#EEF4F8;border:1px solid #4A7394;border-radius:16px;padding:18px;text-align:center;margin-bottom:12px;">
-          <p style="font-size:10px;letter-spacing:0.14em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:8px;">YOUR KITH CONTACTS</p>
+          <p style="font-size:10px;letter-spacing:0.14em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:8px;">YOUR COMMUNITY MEMBERS</p>
           <p style="font-family:'Playfair Display',serif;font-size:40px;color:#1A2530;line-height:1;margin-bottom:4px;">surprise gift</p>
-          <p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;margin-bottom:12px;"></p>
-          <div class="progress-track"><div class="progress-fill" style="width:33%;"></div></div>
-          <div style="display:flex;justify-content:space-between;"><p style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;"></p><p style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;"></p></div>
+          <div class="progress-track" style="margin-top:12px;"><div class="progress-fill" style="width:33%;"></div></div>
         </div>
-        
         <div style="flex:1;"></div>
         <button class="btn-g" onclick="goP('pr-0')">Back to membership</button>
       </div>
@@ -561,10 +545,12 @@
         <div style="width:76px;height:76px;border-radius:50%;border:2px solid #4A7394;background:#EEF4F8;display:flex;align-items:center;justify-content:center;font-size:30px;color:#4A7394;margin:0 auto 22px;">✓</div>
         <p style="font-family:'Playfair Display',serif;font-size:22px;color:#1A2530;margin-bottom:8px;line-height:1.4;">Welcome to<br>Kith.</p>
         <div style="width:40px;height:1px;background:#4A7394;margin:0 auto 16px;"></div>
-        <p style="font-size:12px;color:#3D6070;line-height:1.7;font-family:'Jost',sans-serif;max-width:280px;margin-bottom:24px;">Your membership is active. Complete your profile and nominate your Circle to start receiving matches.</p>
+        <!-- FIXED: "Community members" -->
+        <p style="font-size:12px;color:#3D6070;line-height:1.7;font-family:'Jost',sans-serif;max-width:280px;margin-bottom:24px;">Your spot is reserved. Complete your profile and nominate your Community members to start receiving matches.</p>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:14px;padding:16px;width:100%;text-align:left;margin-bottom:20px;">
-          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">AMOUNT PAID</p><p style="font-size:12px;color:#1A2530;font-family:'Jost',sans-serif;">$5,000</p></div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">KITH AND KIN GIFT</p><p style="font-size:12px;color:#4A7394;font-family:'Playfair Display',serif;">Surprise gift</p></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">DEPOSIT PAID</p><p style="font-size:12px;color:#1A2530;font-family:'Jost',sans-serif;">$500</p></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">TOTAL MEMBERSHIP</p><p style="font-size:12px;color:#1A2530;font-family:'Jost',sans-serif;">$5,000</p></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">COMMUNITY GIFT</p><p style="font-size:12px;color:#4A7394;font-family:'Playfair Display',serif;">Surprise gift</p></div>
           <div style="display:flex;justify-content:space-between;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">AUTO-RENEWS</p><p style="font-size:12px;color:#3B6D11;font-family:'Jost',sans-serif;">Never</p></div>
         </div>
         <button class="btn-g" onclick="showSection('registration')">Complete my profile</button>
@@ -572,7 +558,6 @@
     </div>
   </div>
 </div>
-
 <!-- ============================================================ MATCHING ============================================================ -->
 <div id="sec-matching" style="display:none;">
   <p class="section-label">MATCHING & VETTING</p>
@@ -581,7 +566,8 @@
       <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">your matches</div>
       <div class="sc">
         <p class="sh" style="margin-top:10px;">Your matches.</p>
-        <p class="ss">Curated from the Kith community based on your profile. Review each candidate and send the ones you like to your contacts.</p>
+        <!-- FIXED: "Community members" -->
+        <p class="ss">Curated from the Kith community based on your profile. Review each candidate and send the ones you like to your Community members.</p>
         <div class="card" style="cursor:pointer;" onclick="goMat('mat-cand')">
           <div style="display:flex;gap:14px;align-items:center;">
             <div class="avatar" style="width:52px;height:52px;font-size:16px;">MR</div>
@@ -619,31 +605,34 @@
         <div style="height:0.5px;background:#C8DCE8;margin-bottom:14px;"></div>
         <div style="display:flex;gap:10px;">
           <button style="flex:1;padding:13px 0;border-radius:12px;font-size:13px;font-family:'Jost',sans-serif;cursor:pointer;border:1px solid #CDDCE8;background:#F6F9FB;color:#2D4050;" onclick="goMat('mat-0')">Pass</button>
-          <button style="flex:1;padding:13px 0;border-radius:12px;font-size:13px;font-family:'Jost',sans-serif;cursor:pointer;background:#4A7394;border:none;color:#F6F9FB;" onclick="goMat('mat-sent')">Send to my Circle</button>
+          <!-- FIXED: "my Community" -->
+          <button style="flex:1;padding:13px 0;border-radius:12px;font-size:13px;font-family:'Jost',sans-serif;cursor:pointer;background:#4A7394;border:none;color:#F6F9FB;" onclick="goMat('mat-sent')">Send to my Community</button>
         </div>
         <div class="fnav"><button class="back-btn" onclick="goMat('mat-0')">← Back</button></div>
       </div>
     </div>
     <div class="screen" id="mat-sent">
-      <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">sent to vets</div>
+      <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">sent to community</div>
       <div class="sc">
-        <p class="sh" style="margin-top:10px;">Sent to<br>your Circle.</p>
-        <p class="ss">Your Kith crew has been notified. You'll get a summary once both respond.</p>
+        <!-- FIXED: "your Community" -->
+        <p class="sh" style="margin-top:10px;">Sent to<br>your Community.</p>
+        <p class="ss">Your Community members have been notified. You'll get a report once both respond.</p>
         <div class="card">
-          <p style="font-size:10px;letter-spacing:0.1em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:12px;">KITH CONTACT STATUS</p>
+          <p style="font-size:10px;letter-spacing:0.1em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:12px;">COMMUNITY STATUS</p>
           <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid #C8DCE8;"><div class="avatar">JC</div><div style="flex:1;"><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;">Jessica (sister)</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;">Notified just now</p></div><span class="pill">Pending</span></div>
           <div style="display:flex;align-items:center;gap:12px;padding:8px 0;"><div class="avatar" style="background:#C8DCE8;color:#7A97A8;">KM</div><div style="flex:1;"><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;">Kim (best friend)</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;">Notified just now</p></div><span class="pill">Pending</span></div>
         </div>
         <div style="flex:1;"></div>
-        <button class="btn-g" onclick="goMat('mat-summary')">Preview: both vets responded →</button>
+        <button class="btn-g" onclick="goMat('mat-summary')">Preview: both responded →</button>
         <button class="btn-ghost" onclick="goMat('mat-0')">Back to matches</button>
       </div>
     </div>
     <div class="screen" id="mat-summary">
-      <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">Circle summary</div>
+      <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">Community report</div>
       <div class="sc">
-        <p class="sh" style="margin-top:10px;">Your Circle Member<br>summary.</p>
-        <p class="ss">Both vets have weighed in on Marcus. Here's their private feedback — just for you.</p>
+        <!-- FIXED: "Community Member report" -->
+        <p class="sh" style="margin-top:10px;">Your Community<br>report.</p>
+        <p class="ss">Both Community members have weighed in on Marcus. Here's their private feedback — just for you.</p>
         <div class="score-row"><div class="score-card"><div class="score-num">2/2</div><div class="score-lbl">APPROVED</div></div><div class="score-card"><div class="score-num">4.5</div><div class="score-lbl">AVG RATING</div></div></div>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:14px;padding:14px;margin-bottom:10px;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><div class="avatar" style="width:34px;height:34px;font-size:12px;">JC</div><div style="flex:1;"><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;">Jessica (sister)</p><div style="display:flex;gap:2px;margin-top:2px;"><span style="font-size:13px;color:#4A7394;">★</span><span style="font-size:13px;color:#4A7394;">★</span><span style="font-size:13px;color:#4A7394;">★</span><span style="font-size:13px;color:#4A7394;">★</span><span style="font-size:13px;color:#4A7394;">★</span></div></div><span class="pill" style="background:#EAF3DE;color:#3B6D11;">↑ Approve</span></div>
@@ -660,7 +649,6 @@
     </div>
   </div>
 </div>
-
 <!-- ============================================================ VET NOMINATION ============================================================ -->
 <div id="sec-vetting" style="display:none;">
   <p class="section-label">VET NOMINATION</p>
@@ -669,21 +657,24 @@
       <div class="logo" style="font-style:italic;letter-spacing:0.06em;font-size:20px;">kith</div><div class="logo-sub">The Invitation</div>
       <div class="sc" style="justify-content:center;text-align:center;">
         <div style="width:48px;height:1px;background:#4A7394;margin:0 auto 28px;"></div>
+        <!-- FIXED: "Community members" -->
         <p style="font-family:'Playfair Display',serif;font-size:20px;color:#1A2530;line-height:1.6;margin-bottom:12px;">Choose your two<br>trusted people.</p>
-        <p style="font-size:12px;color:#5A7A8A;line-height:1.75;font-family:'Jost',sans-serif;margin-bottom:28px;">Your contacts privately review candidates you're interested in — and send you their honest feedback before you meet anyone.</p>
+        <p style="font-size:12px;color:#5A7A8A;line-height:1.75;font-family:'Jost',sans-serif;margin-bottom:28px;">Your Community members privately review candidates you're interested in — and send you their honest feedback before you meet anyone.</p>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:14px;padding:16px;width:100%;text-align:left;margin-bottom:24px;">
-          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;"><div style="width:5px;height:5px;border-radius:50%;background:#4A7394;flex-shrink:0;margin-top:5px;"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Your contacts receive a private SMS invite — no app download required</p></div>
+          <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;"><div style="width:5px;height:5px;border-radius:50%;background:#4A7394;flex-shrink:0;margin-top:5px;"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Your Community members receive a private SMS invite — no app download required</p></div>
           <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;"><div style="width:5px;height:5px;border-radius:50%;background:#4A7394;flex-shrink:0;margin-top:5px;"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">Their feedback goes only to you — completely private</p></div>
           <div style="display:flex;gap:12px;align-items:flex-start;"><div style="width:5px;height:5px;border-radius:50%;background:#4A7394;flex-shrink:0;margin-top:5px;"></div><p style="font-size:12px;color:#2D4050;font-family:'Jost',sans-serif;line-height:1.5;">They receive a curated surprise gift upon completing their first review</p></div>
         </div>
-        <button class="btn-g" onclick="goV('vn-1')">Choose my Kith contacts</button>
+        <!-- FIXED: "Community members" -->
+        <button class="btn-g" onclick="goV('vn-1')">Choose my Community members</button>
       </div>
     </div>
     <div class="screen" id="vn-1">
       <div class="prog" id="vnpb1"></div>
       <div class="sc">
-        <p class="sh" style="margin-top:14px;">Kith contact 1</p>
-        <p class="ss">Your contacts privately review candidates you're interested in.</p>
+        <!-- FIXED: "Community member 1" -->
+        <p class="sh" style="margin-top:14px;">Community member 1</p>
+        <p class="ss">Your Community members privately review candidates you're interested in.</p>
         <div style="background:#F6F9FB;border:1px solid #CDDCE8;border-radius:14px;padding:4px 0;">
           <div class="contact-row" onclick="goV('vn-1b')"><div class="avatar">JC</div><div style="flex:1;"><p class="contact-name">Jessica Chee</p><p class="contact-detail">(512) 555-0182</p></div><span style="font-size:12px;color:#7A97A8;font-family:'Jost',sans-serif;">Sister</span></div>
           <div class="contact-row" onclick="goV('vn-1b')"><div class="avatar" style="background:#C8DCE8;color:#7A97A8;">KM</div><div style="flex:1;"><p class="contact-name">Kim Martinez</p><p class="contact-detail">(512) 555-0247</p></div><span style="font-size:12px;color:#7A97A8;font-family:'Jost',sans-serif;">Best friend</span></div>
@@ -696,7 +687,7 @@
     <div class="screen" id="vn-1b">
       <div class="prog" id="vnpb1b"></div>
       <div class="sc">
-        <p class="sh" style="margin-top:14px;">How do you<br>know this contact?</p>
+        <p class="sh" style="margin-top:14px;">How do you<br>know this person?</p>
         <p class="ss">Helps candidates understand who's reviewing them — no personal details shared.</p>
         <label class="lbl">RELATIONSHIP</label>
         <div style="margin-bottom:16px;"><span class="chip-sm sel" onclick="soloSm(this)">Sister</span><span class="chip-sm" onclick="soloSm(this)">Best friend</span><span class="chip-sm" onclick="soloSm(this)">Close friend</span><span class="chip-sm" onclick="soloSm(this)">Colleague</span><span class="chip-sm" onclick="soloSm(this)">Cousin</span><span class="chip-sm" onclick="soloSm(this)">Mentor</span></div>
@@ -706,16 +697,19 @@
         </div>
         <div class="tip-box"><p class="tip-text">Jessica will only see profiles for candidates you've specifically sent to her.</p></div>
         <div style="flex:1;"></div>
-        <div class="fnav"><button class="back-btn" onclick="goV('vn-1')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goV('vn-2')">Continue to Kith contact 2</button></div>
+        <!-- FIXED: "Community member 2" -->
+        <div class="fnav"><button class="back-btn" onclick="goV('vn-1')">← Back</button><button class="btn-g" style="width:auto;padding:13px 28px;" onclick="goV('vn-2')">Continue to Community member 2</button></div>
       </div>
     </div>
     <div class="screen" id="vn-2">
       <div class="prog" id="vnpb2"></div>
       <div class="sc">
-        <p class="sh" style="margin-top:14px;">Kith contact 2</p>
-        <p class="ss">Choose a second contact who knows a different side of you.</p>
+        <!-- FIXED: "Community member 2" -->
+        <p class="sh" style="margin-top:14px;">Community member 2</p>
+        <p class="ss">Choose a second person who knows a different side of you.</p>
         <div style="background:#F6F9FB;border:1px solid #CDDCE8;border-radius:14px;padding:4px 0;">
-          <div class="contact-row" style="opacity:0.4;"><div class="avatar">JC</div><div style="flex:1;"><p class="contact-name">Jessica Chee</p><p class="contact-detail">Already selected as Circle Member 1</p></div></div>
+          <!-- FIXED: "Community Member 1" -->
+          <div class="contact-row" style="opacity:0.4;"><div class="avatar">JC</div><div style="flex:1;"><p class="contact-name">Jessica Chee</p><p class="contact-detail">Already selected as Community Member 1</p></div></div>
           <div class="contact-row" onclick="goV('vn-2b')"><div class="avatar" style="background:#C8DCE8;color:#7A97A8;">KM</div><div style="flex:1;"><p class="contact-name">Kim Martinez</p><p class="contact-detail">(512) 555-0247</p></div><span style="font-size:12px;color:#7A97A8;font-family:'Jost',sans-serif;">Best friend</span></div>
           <div class="contact-row" onclick="goV('vn-2b')"><div class="avatar" style="background:#C8DCE8;color:#7A97A8;">DC</div><div style="flex:1;"><p class="contact-name">Diane Chee</p><p class="contact-detail">(512) 555-0104</p></div><span style="font-size:12px;color:#7A97A8;font-family:'Jost',sans-serif;">Cousin</span></div>
         </div>
@@ -726,7 +720,7 @@
     <div class="screen" id="vn-2b">
       <div class="prog" id="vnpb2b"></div>
       <div class="sc">
-        <p class="sh" style="margin-top:14px;">How do you<br>know this contact?</p>
+        <p class="sh" style="margin-top:14px;">How do you<br>know this person?</p>
         <p class="ss">Helps candidates understand who's reviewing them.</p>
         <label class="lbl">RELATIONSHIP</label>
         <div style="margin-bottom:16px;"><span class="chip-sm" onclick="soloSm(this)">Sister</span><span class="chip-sm sel" onclick="soloSm(this)">Best friend</span><span class="chip-sm" onclick="soloSm(this)">Close friend</span><span class="chip-sm" onclick="soloSm(this)">Colleague</span><span class="chip-sm" onclick="soloSm(this)">Cousin</span></div>
@@ -759,14 +753,14 @@
       <div class="prog" id="vnpb-sent"></div>
       <div class="sc">
         <p class="sh" style="margin-top:14px;">Invites sent.</p>
-        <p class="ss">Both your contacts have been sent a private SMS.</p>
+        <p class="ss">Both your Community members have been sent a private SMS.</p>
         <div style="background:#F0F0F0;border-radius:16px;padding:18px;margin-bottom:14px;">
           <p style="font-size:10px;letter-spacing:0.1em;color:#888;font-family:'Jost',sans-serif;margin-bottom:12px;text-align:center;">SMS PREVIEW</p>
-          <div class="sms-bubble"><p class="sms-text">Hi Jessica — Sarah invites you for trusted feedback.<br><br>As her member, you'll privately review potential matches and share honest feedback — just with her.</p><button class="sms-btn" onclick="goV('vn-vet')">Join ›</button></div>
+          <div class="sms-bubble"><p class="sms-text">Hi Jessica — Sarah invites you to be part of her Kith community.<br><br>You'll privately review potential matches and share honest feedback — just with her.</p><button class="sms-btn" onclick="goV('vn-vet')">Join ›</button></div>
           <p style="font-size:10px;color:#999;font-family:'Jost',sans-serif;margin-top:8px;text-align:center;">Sent to (512) 555-0182</p>
         </div>
         <div class="card">
-          <p style="font-size:10px;letter-spacing:0.1em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:12px;">KITH CONTACT STATUS</p>
+          <p style="font-size:10px;letter-spacing:0.1em;color:#7A97A8;font-family:'Jost',sans-serif;margin-bottom:12px;">COMMUNITY STATUS</p>
           <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:0.5px solid #C8DCE8;"><div class="avatar">JC</div><div style="flex:1;"><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;">Jessica (sister)</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;">Invite sent just now</p></div><span class="pill">Pending</span></div>
           <div style="display:flex;align-items:center;gap:12px;padding:8px 0;"><div class="avatar" style="background:#C8DCE8;color:#7A97A8;">KM</div><div style="flex:1;"><p style="font-size:13px;color:#1A2530;font-family:'Jost',sans-serif;font-weight:500;">Kim (best friend)</p><p style="font-size:11px;color:#5A7A8A;font-family:'Jost',sans-serif;">Invite sent just now</p></div><span class="pill">Pending</span></div>
         </div>
@@ -780,7 +774,7 @@
       <div class="sc">
         <div style="background:#EEF4F8;border:1px solid #4A7394;border-radius:16px;padding:20px;margin-bottom:14px;margin-top:10px;text-align:center;">
           <div style="width:56px;height:56px;border-radius:50%;background:#D8E8F2;border:2px solid #4A7394;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:18px;color:#4A7394;margin:0 auto 12px;">JC</div>
-          <p style="font-family:'Playfair Display',serif;font-size:17px;color:#1A2530;margin-bottom:6px;">Sarah requested your review.</p>
+          <p style="font-family:'Playfair Display',serif;font-size:17px;color:#1A2530;margin-bottom:6px;">Sarah invited you to her community.</p>
           <p style="font-size:12px;color:#3D6070;font-family:'Jost',sans-serif;line-height:1.6;margin-bottom:14px;">Privately review candidates she's interested in — your feedback goes only to her.</p>
           <div style="height:0.5px;background:#C8DCE8;margin:12px 0;"></div>
           <div style="display:flex;justify-content:space-around;text-align:center;">
@@ -789,8 +783,6 @@
             <div><p style="font-family:'Playfair Display',serif;font-size:18px;color:#4A7394;">Private</p><p style="font-size:10px;color:#7A97A8;font-family:'Jost',sans-serif;">your notes</p></div>
           </div>
         </div>
-        
-        
         <div style="flex:1;"></div>
         <button class="btn-g" onclick="goV('vn-review')">Accept — show me my first review</button>
       </div>
@@ -823,7 +815,7 @@
         <div style="width:76px;height:76px;border-radius:50%;border:2px solid #4A7394;background:#EEF4F8;display:flex;align-items:center;justify-content:center;font-size:30px;color:#4A7394;margin:0 auto 22px;">✓</div>
         <p style="font-family:'Playfair Display',serif;font-size:22px;color:#1A2530;margin-bottom:8px;line-height:1.4;">Review submitted.</p>
         <div style="width:40px;height:1px;background:#4A7394;margin:0 auto 16px;"></div>
-        <p style="font-size:12px;color:#3D6070;line-height:1.7;font-family:'Jost',sans-serif;max-width:280px;margin-bottom:24px;">Your feedback has been sent privately to Sarah. </p>
+        <p style="font-size:12px;color:#3D6070;line-height:1.7;font-family:'Jost',sans-serif;max-width:280px;margin-bottom:24px;">Your feedback has been sent privately to Sarah.</p>
         <div style="background:#EEF4F8;border:1px solid #CDDCE8;border-radius:14px;padding:16px;width:100%;text-align:left;margin-bottom:20px;">
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">CANDIDATE REVIEWED</p><p style="font-size:12px;color:#1A2530;font-family:'Jost',sans-serif;">Marcus, 45</p></div>
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><p style="font-size:11px;color:#7A97A8;font-family:'Jost',sans-serif;letter-spacing:0.06em;">YOUR VERDICT</p><p style="font-size:12px;color:#3B6D11;font-family:'Jost',sans-serif;">Approved</p></div>
@@ -833,7 +825,6 @@
     </div>
   </div>
 </div>
-
 <script>
 function showSection(name) {
   const sections = ['landing','registration','media','pricing','matching','vetting','credits'];
@@ -845,7 +836,6 @@ function showSection(name) {
     btn.classList.toggle('active', sections[i] === name);
   });
 }
-
 function goL(id) { document.querySelectorAll('#sec-landing .screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
 function goR(id) {
   document.querySelectorAll('#sec-registration .screen').forEach(s=>s.classList.remove('active'));
@@ -880,7 +870,6 @@ function goV(id) {
   const pb = document.getElementById('vnpb' + id.replace('vn-',''));
   if (pb && n) { pb.innerHTML=''; for(let i=1;i<=6;i++){const d=document.createElement('div');d.className='pd'+(i<=n?' on':'');pb.appendChild(d);} }
 }
-
 function soloChip(el) { el.closest('.chip-grid').querySelectorAll('.chip').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); }
 function soloSm(el) { el.parentElement.querySelectorAll('.chip-sm').forEach(c=>c.classList.remove('sel')); el.classList.add('sel'); }
 function toggleSw(id) { document.getElementById(id).classList.toggle('on'); }
@@ -888,8 +877,6 @@ function selPrompt(id) { ['mp1','mp2','mp3'].forEach(p=>{const el=document.getEl
 function selWQ(id) { ['wq1','wq2','wq3'].forEach(p=>{const el=document.getElementById(p);if(el){el.style.borderColor='#CDDCE8';el.style.background='#F6F9FB';el.querySelector('p').style.color='#2D4050';}}); const s=document.getElementById(id);s.style.borderColor='#4A7394';s.style.background='#EEF4F8';s.querySelector('p').style.color='#2D5070'; }
 function selCQ(id) { ['cq-a','cq-b','cq-c'].forEach(c=>{const el=document.getElementById(c);if(el){el.style.borderColor='#CDDCE8';el.style.background='#F6F9FB';el.querySelector('p').style.color='#2D4050';}}); const s=document.getElementById(id);s.style.borderColor='#4A7394';s.style.background='#EEF4F8';s.querySelector('p').style.color='#2D5070'; }
 function updateRangeSummary() { const mn=document.getElementById('rmin-out').textContent; const mx=document.getElementById('rmax-out').textContent; const el=document.getElementById('range-summary'); if(el)el.textContent=mn+' – '+mx; }
-function setFmt(f) { document.getElementById('fmtv').classList.toggle('sel',f==='video'); document.getElementById('fmta').classList.toggle('sel',f==='voice'); }
-
 let mRec=false,mTimer=null,mSecs=0,mWave=null;
 function toggleRec(){
   const area=document.getElementById('mrec');
